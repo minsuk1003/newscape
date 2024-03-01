@@ -1,0 +1,14 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'news_guru:index' %}">
+            <img src="{% static 'AI Newscape.png' %}" alt="Newscape Logo" style="width: 100px;">
+        </a>
+        <div class="ml-auto">
+            <span class="navbar-text text-dark font-weight-bold">
+                뉴스를 더 잘 읽도록 도와주는 뉴스 지식 어시스턴트 AI Newscape입니다.
+            </span>
+        </div>
+    </div>
+</nav>

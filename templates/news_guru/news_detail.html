@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load news_guru_filter %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="mb-3 text-center">
+                <h5 class="text-center">{{ news.publish_date|date:"Y-m-d" }}</h5>
+            </div>
+            <!-- 기사 제목 및 구분선 -->
+            <h1 class="text-center mb-4 md-2">{{ news.title }}</h1>
+             <!-- 언론사와 일자 -->
+             <div class="mb-3 text-center">
+                <h7 class="text-center">{{ news.press|get_media_name }} | {{ news.category }}</h7>
+            </div>
+
+            <!-- Hyperlink to the original news URL -->
+            <div class="text-center mt-2">
+                <a href="{{ news.url }}" target="_blank">네이버 뉴스로 보기</a>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- 스트레이트 뉴스 형식으로 보기 시 기사 본문 -->
+            <div id="straightNewsContent" class="content">
+                <!-- Thumbnail Image -->
+                <div class="text-center"> <!-- Custom margin below the image -->
+                    <img src="{{ news.thumbnail_url }}" class="img-fluid" alt="Thumbnail Image" style="width: 300px; height: auto;">
+                </div>
+                    {{ news.content }}
+            </div>
+
+
+        </div>
+        <div class="card-footer bg-light p-3">
+            <div class="d-flex justify-content-center align-items-center">
+                <button class="btn btn-primary btn-lg mx-3" id="btnToggleView" data-news-id="{{ news.id }}" data-bs-toggle="tooltip" title="생성형 AI가 해당 기사를 요약하는 적합한 카드뉴스를 생성해 제공합니다." data-bs-custom-class="primary">
+                    카드뉴스 형식으로 보기
+                </button>
+                <button class="btn btn-success btn-lg mx-3" id="btnCheckBackground" data-news-id="{{ news.id }}" data-bs-toggle="tooltip" title="생성형 AI가 해당 기사 이전에 발생한 내용들을 토대로 기사의 배경지식을 생성해 제공합니다." data-bs-custom-class="success">
+                    배경지식 확인하기
+                </button>
+                <button class="btn btn-lg mx-3" id="btnCheckTerm" data-news-id="{{ news.id }}" style="background-color: #6f42c1; color: white; " data-bs-toggle="tooltip" data-bs-placement="bottom" title="생성형 AI가 해당 기사에 등장하는 최신 단어와 전문 용어에 대한 설명을 생성해 제공합니다." data-bs-custom-class="purple">
+                    최신 단어 및 전문 용어 설명 보기
+                </button>
+            </div>  
+        </div>  
+    </div>
+</div>
+
+<style>
+    .highlighted-keyword {
+        color: darkblue; /* Or use a specific hex code for the color */
+        font-weight: bold; /* Optional: makes the keyword stand out more */
+    }
+    .content {
+        white-space: pre-line;
+    }
+    .custom-hr {
+        margin-bottom: 5px; /* Adjust the bottom margin of the hr */
+    }
+    .custom-thumbnail {
+        margin-top: 5px; /* Adjust the top margin of the thumbnail container */
+    }
+    .bi-info-circle-primary {
+        color: #007bff; /* This is the default primary color in Bootstrap 4. Change it according to your theme's primary color */
+    }
+    .bi-info-circle-success {
+        color: #28a745; /* This is the default primary color in Bootstrap 4. Change it according to your theme's primary color */
+    }
+
+    /* 툴팁 스타일 */
+    .tooltip-custom-primary .tooltip-inner {
+        max-width: none; /* 툴팁의 최대 너비 제한 해제 */
+        background-color: #007bff; /* Bootstrap Primary Color */
+        color: white; /* 텍스트 색상 */
+    }
+    .tooltip-custom-success .tooltip-inner {
+        max-width: none;
+        background-color: #28a745; /* Bootstrap Success Color */
+        color: white;
+    }
+    .tooltip-custom-purple .tooltip-inner {
+        max-width: none;
+        background-color: #6f42c1; /* Custom Purple Color */
+        color: white;
+    }
+
+    .tooltip-custom-primary .tooltip-arrow,
+    .tooltip-custom-primary .tooltip-arrow::before {
+        border-top-color: #007bff !important; /* Primary Color */
+    }
+    
+    .tooltip-custom-success .tooltip-arrow,
+    .tooltip-custom-success .tooltip-arrow::before {
+        border-top-color: #28a745 !important; /* Success Color */
+    }
+    
+    .tooltip-custom-purple .tooltip-arrow,
+    .tooltip-custom-purple .tooltip-arrow::before {
+        border-top-color: #6f42c1 !important; /* Custom Purple Color */
+    }
+
+</style>
+
+<script type='text/javascript'>
+
+document.addEventListener("DOMContentLoaded", function() {
+    var popoverElements = document.querySelectorAll('[data-bs-toggle="popover"]');
+    popoverElements.forEach(function(el) {
+        var customClass = el.getAttribute('data-bs-custom-class');
+        new bootstrap.Popover(el, {
+            customClass: 'tooltip-custom-' + customClass
+        });
+    });
+
+    var tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipElements.forEach(function(el) {
+        var customClass = el.getAttribute('data-bs-custom-class');
+        new bootstrap.Tooltip(el, {
+            customClass: 'tooltip-custom-' + customClass,
+            delay: 0
+        });
+    });
+});
+
+    
+
+document.getElementById('btnToggleView').addEventListener('click', function() {
+    const newsId = this.getAttribute('data-news-id'); // Ensure this attribute is correctly set
+    // Open a popup window with a loading message
+    const popupWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    popupWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Loading Card News...</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </body>
+    </html>
+`);    
+    fetch(`/news_guru/${newsId}/generate_card_news/`)
+    .then(response => response.json())
+    .then(data => {
+        // Update the popup window with the card news image
+        popupWindow.document.body.innerHTML = `<img src="${data.image_url}" alt="Card News Image" style="max-width:100%;height:auto;">`;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        popupWindow.document.body.innerHTML = '<p>Failed to load card news. Please try again later.</p>';
+    });
+});
+
+document.getElementById('btnCheckBackground').addEventListener('click', function() {
+    const newsId = this.getAttribute('data-news-id'); // Assuming you have the news ID
+    // Open a popup window with the background knowledge text
+    const popupWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    popupWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Loading Background Knowledge...</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </body>
+    </html>
+`);
+    fetch(`/news_guru/${newsId}/get_background_knowledge/`)
+    .then(response => response.json())
+    .then(data => {
+        // Clear the loading message
+        popupWindow.document.body.innerHTML = '';
+
+        // Set up the HTML structure with Bootstrap classes for a card-style layout
+        popupWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Background Knowledge</title>
+            <!-- Include Bootstrap CSS -->
+            <style>
+                body { margin: 20px; }
+                .card { box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); }
+            </style>
+        </head>
+        <body>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">배경지식</h5>
+                    <hr class="my-4">
+                    <p class="card-text">${data.background_knowledge}</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        `);
+    
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        popupWindow.document.body.innerHTML = '<p>Error loading background knowledge.</p>';
+    });
+});
+
+document.getElementById('btnCheckTerm').addEventListener('click', function() {
+    const newsId = this.getAttribute('data-news-id');
+    const popupWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+
+    popupWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Keywords Explanation</title>
+            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        </head>
+        <body>
+            <div class="container" style="margin-top: 20px;">
+                <h2>Keywords and Descriptions</h2>
+                <table class='table' id="keywordsTable">
+                    <thead>
+                        <tr>
+                            <th>Keyword</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="keywordsTableBody">
+                    </tbody>
+                </table>
+                <div id="loadingSpinner" class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </body>
+        </html>
+    `);
+
+    popupWindow.document.close();
+
+    // Make an API request to get keywords and their explanations
+    fetch(`/news_guru/${newsId}/get_keywords_and_explanations/`)
+    .then(response => response.json())
+    .then(data => {
+        // Hide the loading spinner
+        const loadingSpinner = popupWindow.document.getElementById('loadingSpinner');
+        loadingSpinner.style.display = 'none';
+
+        // Show the table
+        const keywordsTable = popupWindow.document.getElementById('keywordsTable');
+        keywordsTable.style.display = 'table';
+
+        // Get the table body to insert rows
+        const tbody = keywordsTable.querySelector('tbody');
+
+        // Assuming data is an object with keywords as keys and descriptions as values
+        for (const [keyword, description] of Object.entries(data)) {
+            // Create a table row
+            const tr = popupWindow.document.createElement('tr');
+
+            // Create a cell for the keyword
+            const tdKeyword = popupWindow.document.createElement('td');
+            tdKeyword.textContent = keyword;
+
+            // Create a cell for the description
+            const tdDescription = popupWindow.document.createElement('td');
+            tdDescription.textContent = description;
+
+            // Append cells to the row
+            tr.appendChild(tdKeyword);
+            tr.appendChild(tdDescription);
+
+            // Append the row to the table body
+            tbody.appendChild(tr);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        popupWindow.document.body.innerHTML = error;
+    });
+});
+
+
+
+
+
+document.querySelectorAll('.highlighted-keyword').forEach(function(keyword) {
+    keyword.addEventListener('click', function() {
+        const clickedKeyword = this.textContent;
+        fetch(`/get_keyword_info/${clickedKeyword}`)
+        .then(response => response.json())
+        .then(data => {
+            const popupWindow = window.open('', '_blank', 'width=800,height=400,scrollbars=yes,resizable=yes');
+            popupWindow.document.write(`<html><head><title>Additional Information</title></head><body><div style="padding: 20px;"><h3>${clickedKeyword}에 대한 추가 지식입니다.</h3><p>${data.info}</p></div></body></html>`);
+            popupWindow.document.close();
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+
+
+$(document).ready(function(){
+    // Enable all popovers on the page
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl)
+    })
+});
+</script>
+
+<div id="backgroundKnowledgeContainer" class="mt-3">
+    <!-- The background knowledge text will be dynamically inserted here -->
+</div>
+{% endblock %}

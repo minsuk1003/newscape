@@ -1,0 +1,12 @@
+.news-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* Number of lines you want to display */
+    overflow: hidden;
+}
+.news-content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* Number of lines you want to display */
+    overflow: hidden;
+}

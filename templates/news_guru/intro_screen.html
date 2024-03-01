@@ -1,0 +1,35 @@
+<!-- intro_screen.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro Screen</title>
+    <!-- Include your CSS styles here -->
+</head>
+<body>
+    <!-- Introductory screen content -->
+    <div id="introScreen" class="intro-screen">
+        <!-- Add your logo and description here -->
+        <img src="{% static 'logo.png' %}" alt="Logo" class="logo">
+        <p class="description">Welcome to Our News Service</p>
+    </div>
+
+    <!-- Include your JavaScript library, e.g., jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script type="text/javascript">
+        // Function to hide the intro screen after a delay
+        function hideIntroScreen() {
+            $('#introScreen').fadeOut('slow', function() {
+                // Redirect to the news_list page after hiding the intro screen
+                window.location.href = '/news_list/';
+            });
+        }
+
+        // Set a timeout to hide the intro screen after 3 seconds (3000 milliseconds)
+        setTimeout(hideIntroScreen, 3000);
+    </script>
+</body>
+</html>
