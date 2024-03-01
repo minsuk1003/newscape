@@ -4,5 +4,4 @@ db.sqlite3
 __pycache__
 .env
 p.ipynb
-news_content_processed_data.csv
-news.csv
+*.csv
