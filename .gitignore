@@ -5,3 +5,4 @@ __pycache__
 .env
 p.ipynb
 news_content_processed_data.csv
+news.csv
