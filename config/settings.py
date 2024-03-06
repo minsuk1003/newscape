@@ -28,6 +28,9 @@ environ.Env.read_env(
 CARD_NEWS_API_KEY = env('CARD_NEWS_API_KEY')
 BACKGROUND_KNOWLEDGE_API_KEY = env('BACKGROUND_KNOWLEDGE_API_KEY')
 KEYWORDS_EXPLANATIONS_API_KEY = env('KEYWORDS_EXPLANATIONS_API_KEY')
+AWS_ACCESS_KEY = env('AWS_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+BUCKET_NAME = env('BUCKET_NAME')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/

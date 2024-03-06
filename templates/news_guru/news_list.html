@@ -5,17 +5,17 @@
 <div class="container my-3">
     <div class="card mb-4">
         <div class="card-body">
-            <h5 class='card-title mb-2 mr-2'>뉴스 필터링</h5>
+            <h5 class='card-title mb-4 mr-4'>뉴스 필터링</h5>
             <form method="get" action="{% url 'index' %}" class="form-inline mb-2 mr-2">
                 <div class="form-group mb-2 mr-2">
-                    <label for="kw" class="sr-only">키워드</label>
-                    <input type="text" id="search_kw" name="kw" class="form-control" value="{{ kw|default_if_none:'' }}">
+                    <label for="kw" class="sr-only mb-1">키워드</label>
+                    <input type="text" id="search_kw" name="kw" class="form-control mb-1" value="{{ kw|default_if_none:'' }}">
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-6">
                         <!-- Start Date -->
                         <div class="form-group mb-2 mr-2">
-                            <label for="start_date" class="sr-only">시작 날짜</label>
+                            <label for="start_date" class="sr-only mb-1">시작 날짜</label>
                             <input type="date" id="start_date" name="start_date" class="form-control" placeholder="Keyword" value="{{ start_date|default_if_none:'' }}">
                             <label for="start_date" class="sr-only">{{ earliest_date|date:"Y-m-d" }}부터 기사를 제공하고 있습니다.</label>                
                         </div>
@@ -23,7 +23,7 @@
                         <!-- End Date -->
                     <div class="col-md-6">
                         <div class="form-group mb-2 mr-2">
-                            <label for="end_date" class="sr-only">종료 날짜</label>
+                            <label for="end_date" class="sr-only mb-1">종료 날짜</label>
                             <input type="date" id="end_date" name="end_date" class="form-control" placeholder="Keyword" value="{{ end_date|default_if_none:'' }}">
                             <label for="end_date" class="sr-only">{{ latest_date|date:"Y-m-d" }}까지 기사를 제공하고 있습니다.</label>                                
                         </div>
@@ -33,7 +33,7 @@
                 <div class="row">
                     <!-- Categories -->
                     <div class="col-md-6">
-                        <div class="mb-3">
+                        <div class="mb-1">
                             <label class="form-label">카테고리</label>
                             <div class="d-flex flex-wrap justify-content-start">
                                 {% for cat in category_list %}
@@ -48,7 +48,7 @@
                 
                     <!-- Presses -->
                     <div class="col-md-6">
-                        <div class="mb-3">
+                        <div class="mb-1">
                             <label class="form-label">언론사</label>
                             <div class="d-flex flex-wrap justify-content-start">
                                 {% for press_code, press_name in press_list %}
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                    <div class="text-center">
+                    <div class="text-center mt-2">
                         <button type="submit" class="btn btn-primary">찾기</button>
                     </div>
                 </div>

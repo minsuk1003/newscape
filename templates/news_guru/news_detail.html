@@ -127,11 +127,11 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
     
-
+// 카드뉴스 생성
 document.getElementById('btnToggleView').addEventListener('click', function() {
     const newsId = this.getAttribute('data-news-id'); // Ensure this attribute is correctly set
     // Open a popup window with a loading message
-    const popupWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    const popupWindow = window.open('', '_blank', 'width=1000,height=1200,scrollbars=yes,resizable=yes');
     popupWindow.document.write(`
     <!DOCTYPE html>
     <html lang="en">
@@ -140,12 +140,17 @@ document.getElementById('btnToggleView').addEventListener('click', function() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Loading Card News...</title>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .loading-container { text-align: center; padding-top: 20px; }
+            .loading-text { margin-top: 20px; } /* 스피너와 텍스트를 위한 스타일 */
+        </style>
     </head>
     <body>
-        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="loading-container">
             <div class="spinner-border text-primary" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
+            <div class="loading-text">생성형 AI가 해당 기사에 대한 카드뉴스를 생성 중입니다...</div>
         </div>
     </body>
     </html>
@@ -162,10 +167,11 @@ document.getElementById('btnToggleView').addEventListener('click', function() {
     });
 });
 
+// 배경지식 생성
 document.getElementById('btnCheckBackground').addEventListener('click', function() {
     const newsId = this.getAttribute('data-news-id'); // Assuming you have the news ID
     // Open a popup window with the background knowledge text
-    const popupWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    const popupWindow = window.open('', '_blank', 'width=800,height=400,scrollbars=yes,resizable=yes');
     popupWindow.document.write(`
     <!DOCTYPE html>
     <html lang="en">
@@ -174,12 +180,17 @@ document.getElementById('btnCheckBackground').addEventListener('click', function
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Loading Background Knowledge...</title>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .loading-container { text-align: center; padding-top: 20px; }
+            .loading-text { margin-top: 20px; } /* 스피너와 텍스트를 위한 스타일 */
+        </style>
     </head>
     <body>
-        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="loading-container">
             <div class="spinner-border text-primary" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
+            <div class="loading-text">생성형 AI가 해당 기사에 대한 배경지식을 생성 중입니다...</div>
         </div>
     </body>
     </html>
@@ -187,10 +198,7 @@ document.getElementById('btnCheckBackground').addEventListener('click', function
     fetch(`/news_guru/${newsId}/get_background_knowledge/`)
     .then(response => response.json())
     .then(data => {
-        // Clear the loading message
-        popupWindow.document.body.innerHTML = '';
-
-        // Set up the HTML structure with Bootstrap classes for a card-style layout
+        popupWindow.document.body.innerHTML = ''; // Clear the existing content
         popupWindow.document.write(`
         <!DOCTYPE html>
         <html lang="en">
@@ -198,16 +206,16 @@ document.getElementById('btnCheckBackground').addEventListener('click', function
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Background Knowledge</title>
-            <!-- Include Bootstrap CSS -->
             <style>
                 body { margin: 20px; }
-                .card { box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); }
+                .card { box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); margin-top: 20px; }
+                .card-text { font-size: 1.2rem; } /* 텍스트 크기 조정 */
             </style>
         </head>
         <body>
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">배경지식</h5>
+                    <h2 class="card-title">배경지식</h2>
                     <hr class="my-4">
                     <p class="card-text">${data.background_knowledge}</p>
                 </div>
@@ -215,7 +223,6 @@ document.getElementById('btnCheckBackground').addEventListener('click', function
         </body>
         </html>
         `);
-    
     })
     .catch(error => {
         console.error('Error:', error);
@@ -223,9 +230,13 @@ document.getElementById('btnCheckBackground').addEventListener('click', function
     });
 });
 
+
+
+
+// 키워드 설명 생성
 document.getElementById('btnCheckTerm').addEventListener('click', function() {
     const newsId = this.getAttribute('data-news-id');
-    const popupWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    const popupWindow = window.open('', '_blank', 'width=800,height=800,scrollbars=yes,resizable=yes');
 
     popupWindow.document.write(`
         <!DOCTYPE html>
@@ -238,7 +249,7 @@ document.getElementById('btnCheckTerm').addEventListener('click', function() {
         </head>
         <body>
             <div class="container" style="margin-top: 20px;">
-                <h2>Keywords and Descriptions</h2>
+                <h2>Keywords and Descriptions</h2><br>
                 <table class='table' id="keywordsTable">
                     <thead>
                         <tr>
@@ -250,8 +261,11 @@ document.getElementById('btnCheckTerm').addEventListener('click', function() {
                     </tbody>
                 </table>
                 <div id="loadingSpinner" class="text-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
+                    <div class="loading-container">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="loading-text">생성형 AI가 해당 기사에 대한 키워드와 설명을 생성 중입니다...</div>
                     </div>
                 </div>
             </div>

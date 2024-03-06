@@ -11,12 +11,46 @@ from django.views.generic import ListView
 from openai import OpenAI
 import json
 from django.conf import settings
+from PIL import Image, ImageFont, ImageDraw
+from io import BytesIO
+import boto3
 
 
 CARD_NEWS_API_KEY = settings.CARD_NEWS_API_KEY
 BACKGROUND_KNOWLEDGE_API_KEY = settings.BACKGROUND_KNOWLEDGE_API_KEY
 KEYWORDS_EXPLANATIONS_API_KEY = settings.KEYWORDS_EXPLANATIONS_API_KEY
+AWS_ACCESS_KEY = settings.AWS_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY = settings.AWS_SECRET_ACCESS_KEY
+BUCKET_NAME = settings.BUCKET_NAME
 
+def generate_summary(id):
+    # Assuming you have a way to get the news content by its ID
+    news = get_object_or_404(News, pk=id)
+    news_content = news.content
+
+    client = OpenAI(api_key=BACKGROUND_KNOWLEDGE_API_KEY)
+
+    response = client.chat.completions.create(
+      model="gpt-4-0125-preview",
+      temperature=0.2,
+      messages=[
+            {"role": "system", "content": "You are a helpful assistant for news readers."},
+            {"role": "user", "content": f"""
+             news article : {news_content}
+             
+             I want to make card news about the above news article.
+             First of all, Please create a summary that will go into the card news.
+             
+             The summary sentence satifies the following conditions :
+             1. Write it in 4 sentences.
+             2. Each sentence should be written in less than 60 characters.
+             3. Don't change the line when the sentence is over.
+             4. Get rid of the period of the last sentence.
+             """.strip()}]  
+      )
+
+    summary = response.choices[0].message.content
+    return summary
 
 def generate_card_news(request, id):
     news = get_object_or_404(News, pk=id)
@@ -24,24 +58,125 @@ def generate_card_news(request, id):
     
     # Initialize your OpenAI client
     client = OpenAI(api_key=CARD_NEWS_API_KEY)
-
+    
+    summary = generate_summary(id)
+    
+    # summary 변수에서 문장을 나눔
+    sentences = summary.split('. ')  # 마침표와 공백을 기준으로 문장을 나눕니다.
+    
     # Generate the prompt for DALL-E
-    prompt = f"""Create a visual representation for the following news article, leaving space for text:
-    {news_content}
+    prompt = f"""
+    news article : {news_content}
+    
+    I want to make card news about the above news article.
+    Create a background image for the following news article, leaving space for text: {summary}
+    
+    And most important thing is...
+    Please leave 1000x1000 in the middle of the image as a white background because the text needs to be filled.  
     """
+    
+    prompt2 = f"""
+    Imagine a creative and engaging background for a news card about {news_content}, with vivid colors and relevant imagery around the edges. The center of the image must have a large, blank white space to accommodate text later on : {summary}
+    
+    The white space should take up the majority of the center, but not covering the thematic visuals at the borders. This is for an informative and visually appealing news card.
+    """
+    
+    prompt3 = f"""
+    Design a background for a news card with the following criteria:
+    - A large, central blank white space must be maintained for text to be added later. This white space should cover at least 80% of the center, ensuring no interference with future text.
+    - Around the very edges of the image, incorporate subtle and minimal imagery related to the news article content. This imagery should form a narrow border and not distract from the central white space.
+    - The imagery should be visually engaging but should not overwhelm the central blank area. Avoid direct text displays or explicit details within the imagery.
+    - The design must strike a balance between being impactful and understated, focusing on leaving ample room for text insertion in the middle.
 
+    Please note:
+    - The full news content and a summary for the card news will influence the border imagery, reflecting the theme of the news without overwhelming the design.
+    
+    full news content:
+    - {news_content}
+    
+    a summary for the card news:
+    - {summary}
+    
+    """.strip()
+    
+    prompt4 = f"""
+    Imagine creating a visually appealing background for a news card, centered around the key themes of the following article. The image should feature a vast, blank white space in its heart, occupying at least 80% of the central area, reserved explicitly for textual content to be added later. This blank canvas should serve as a stark contrast to the vibrant, thematic imagery delicately framing the edges of the image. 
+
+    The border should be adorned with symbols, elements, or scenes directly related to the core message of the article, subtly engaging the viewer's curiosity about the news content. These visual cues should be placed thoughtfully around the perimeter, creating a minimal yet meaningful frame that encapsulates the essence of the news story.
+
+    Please ensure the design is both impactful and understated, highlighting the space for the central text while inviting the viewer into the story through evocative imagery at the edges.
+    
+    Full news : {news_content}
+    
+    Key themes from the news article: {summary}
+    """.strip()
+
+    
     # Call the OpenAI API to generate an image
     response = client.images.generate(
         model="dall-e-3",  # Make sure to use the correct model name
-        prompt=prompt,
+        prompt=prompt3,
         size="1024x1024",
         n=1
     )
 
     # Extract the image URL from the response
     image_url = response.data[0].url
+    
+    # 이미지를 메모리에 로드
+    response = requests.get(image_url)
+    image = Image.open(BytesIO(response.content))
 
-    # Return the image URL in a JsonResponse
+    # 이미지에 텍스트 추가
+    font_path = "C:/news_project/news_app/static/NotoSansKR-Bold.ttf"  # 폰트 파일 경로(필요에 따라 변경)
+    font_size = 24  # 폰트 크기 설정
+    font = ImageFont.truetype(font_path, font_size)
+    
+    draw = ImageDraw.Draw(image)
+    
+    # 전체 텍스트 블록의 높이를 계산하기 위한 준비
+    total_text_height = 0
+    line_heights = []
+
+    # 각 문장의 높이를 계산 (실제 그리기 전에)
+    for sentence in sentences:
+        if not sentence.endswith('.'):
+            sentence += '.'
+        # textbbox 메소드를 사용하여 텍스트의 바운딩 박스를 얻음
+        bbox = draw.textbbox((0, 0), sentence, font=font)
+        text_height = bbox[3] - bbox[1]
+        line_heights.append(text_height)
+        total_text_height += text_height + 10  # 문장 간의 여백 추가
+
+    # 텍스트 시작 y 위치를 이미지 중앙에 맞추기
+    image_width, image_height = image.size
+    initial_y = (image_height - total_text_height) / 2
+
+    # 이미지에 텍스트 추가
+    y_offset = initial_y
+    for index, sentence in enumerate(sentences):
+        bbox = draw.textbbox((0, 0), sentence, font=font)
+        text_width = bbox[2] - bbox[0]
+        x = (image_width - text_width) / 2
+        y = y_offset
+
+        draw.text((x, y), sentence, font=font, fill="black")
+        y_offset += line_heights[index] + 10  # 다음 줄의 y 위치 조정
+
+    # 메모리에 이미지 저장
+    image_io = BytesIO()
+    image.save(image_io, format='PNG')
+    image_io.seek(0)
+
+    # S3 클라이언트 생성 및 이미지 업로드
+    s3_client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    file_name = f'card_news_{id}.png'
+    s3_client.upload_fileobj(image_io, BUCKET_NAME, file_name, ExtraArgs={'ContentType': 'image/png', 'ACL': 'public-read'})
+
+    # 이미지 URL 생성
+    image_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{file_name}"
+
+    # 저장된 이미지 경로를 JsonResponse로 반환
     return JsonResponse({'image_url': image_url})
 
 
@@ -63,7 +198,7 @@ def get_background_knowledge(request, id):
              Then, based on previous articles, Please provide the background knowledge of the above news article.
              Please make sure that the content of the above article is not included in the background knowledge as much as possible so that the previous background can be reflected.
              Finally, please print out 3 to 5 sentences in Korean.
-             """},
+             """.strip()},
             ]
     )
 
@@ -108,7 +243,7 @@ def get_keywords_and_explanations(request, id):
              """
             },
             {"role": "user", "content": f"""Identify technical terms, new words, and hard foreign words from the following news article, and store the words each in a key in the form of JSON. 
-             Provide explanations for the words IN KOREAN, and store the explanations each in a value in the form of JSON.
+             Then, Provide explanations for the words within the context of the news article IN KOREAN, and store the explanations each in a value in the form of JSON.
              news article : {news_content}
              """},
             ]
