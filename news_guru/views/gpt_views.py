@@ -36,14 +36,15 @@ def generate_summary(id):
       messages=[
             {"role": "system", "content": "You are a helpful assistant for news readers."},
             {"role": "user", "content": f"""
-             news article : {news_content}
+             news article
+             ```{news_content}```
              
-             I want to make card news about the above news article.
+             I want to make card news about the above news article separated by three reverse quotes.
              First of all, Please create a summary that will go into the card news.
              
              The summary sentence satifies the following conditions :
              1. Write it in 4 sentences.
-             2. Each sentence should be written in less than 60 characters.
+             2. Each sentence should be written in less than 70 characters.
              3. Don't change the line when the sentence is over.
              4. Get rid of the period of the last sentence.
              """.strip()}]  
@@ -66,9 +67,10 @@ def generate_card_news(request, id):
     
     # Generate the prompt for DALL-E
     prompt = f"""
-    news article : {news_content}
+    news article
+    ```{news_content}```
     
-    I want to make card news about the above news article.
+    I want to make card news about the above news article separated by three reverse quotes.
     Create a background image for the following news article, leaving space for text: {summary}
     
     And most important thing is...
@@ -82,22 +84,23 @@ def generate_card_news(request, id):
     """
     
     prompt3 = f"""
-    Design a background for a news card with the following criteria:
-    - A large, central blank white space must be maintained for text to be added later. This white space should cover at least 80% of the center, ensuring no interference with future text.
-    - Around the very edges of the image, incorporate subtle and minimal imagery related to the news article content. This imagery should form a narrow border and not distract from the central white space.
-    - The imagery should be visually engaging but should not overwhelm the central blank area. Avoid direct text displays or explicit details within the imagery.
-    - The design must strike a balance between being impactful and understated, focusing on leaving ample room for text insertion in the middle.
+    full news content:
+    ```{news_content}```
+    
+    a summary for the card news:
+    ```{summary}```
+    
+    Design a background for a card news with the following criteria:
+    - A large, central blank white space must be maintained for text to be added later. 
+    - This blank white space should cover at least 90% of the image, ensuring no interference with future text.
+    - Around the very edges of the image, incorporate subtle and minimal imagery related to the above news article separated by three reverse quotes, and this imagery should form a narrow border and not distract from the central white space.
+    - The imagery should not overwhelm the central blank area.
+    - Avoid direct text displays or explicit details within the imagery.
+    - The design should prioritize subtlety while maintaining a degree of impact, focusing on leaving ample room for text insertion in the middle.
 
     Please note:
     - The full news content and a summary for the card news will influence the border imagery, reflecting the theme of the news without overwhelming the design.
-    
-    full news content:
-    - {news_content}
-    
-    a summary for the card news:
-    - {summary}
-    
-    """.strip()
+    """
     
     prompt4 = f"""
     Imagine creating a visually appealing background for a news card, centered around the key themes of the following article. The image should feature a vast, blank white space in its heart, occupying at least 80% of the central area, reserved explicitly for textual content to be added later. This blank canvas should serve as a stark contrast to the vibrant, thematic imagery delicately framing the edges of the image. 
@@ -193,11 +196,15 @@ def get_background_knowledge(request, id):
       messages=[
             {"role": "system", "content": "You are a helpful assistant for news readers."},
             {"role": "user", "content": f"""
-             news article : {news_content}, url : {news_url}
-             Use Browse with Bing : Based on the above news article, find a few previous news articles to help news readers understand the above news article. 
-             Then, based on previous articles, Please provide the background knowledge of the above news article.
-             Please make sure that the content of the above article is not included in the background knowledge as much as possible so that the previous background can be reflected.
+             Use Browse with Bing : Based on the following news article separated by three reverse quotes and news url, find a few previous news articles to help news readers understand the news article. 
+             Then, based on previous articles, Please provide the background knowledge of the news article.
+             Please make sure that the content of the news article is not included in the background knowledge as much as possible so that the previous background can be reflected.
              Finally, please print out 3 to 5 sentences in Korean.
+             
+             news article
+             ```{news_content}```
+             
+             url : {news_url}
              """.strip()},
             ]
     )
@@ -221,9 +228,10 @@ def get_keywords_and_explanations(request, id):
       messages=[
             {"role": "system", "content": "You are a helpful assistant for news readers designed to output JSON."},
             {"role": "user", "content": f"""Identify technical terms, new words, and hard foreign words from the following news article, and store the words each in a key in the form of JSON. 
-             Provide explanations for the words IN KOREAN, and store the explanations each in a value in the form of JSON.
+             Then, Provide explanations for the words within the context of the news article IN KOREAN, and store the explanations each in a value in the form of JSON.
+             
              news article : 
-             국적 불문 최고 인기 메뉴는 ‘치킨’
+             ```국적 불문 최고 인기 메뉴는 ‘치킨’
             2위 ‘간장게장’, 중화권 여행객 사이 인기
             글로벌 K관광 플랫폼 ‘크리에이트립’이 작년 한 해 한국을 방문한 외국인 관광객들의 외식메뉴 거래 데이터를 바탕으로 국적별 외식메뉴 소비 트렌드를 21일 발표했다. 작년 한 해 국적 불문 가장 인기를 끈 메뉴는 ‘치킨’ 으로 전체 외식메뉴 중 거래건수 1 위를 기록한 것으로 나타났다. 2위는 간장게장이 차지했다.
             코로나19 발생 이전인 2019년과 비교한 결과 2023년 크리에이트립의 작년 외식메뉴 카테고리 거래건수는 약 11배, 거래액은 약 57배 증가했다.
@@ -231,7 +239,7 @@ def get_keywords_and_explanations(request, id):
             의외의 메뉴도 눈에 띈다. 바로 ‘간장게장’이다 . 간장게장은 치킨에 이어 거래건수 기준 전체 외식메뉴 중 2 위를 차지한 것으로 나타났다 . 특히 대만과 홍콩 등 중화권 여행객 사이에서 거래건수가 전체의 약 87%, 거래액은 전체의 약 89%로 큰 비중을 차지하고 있다. 크리에이트립을 이용한 대만인 여행객은 “기후가 더운 나라에서는 날것의 해산물을 안전하게 조리해 먹는 요리가 드물다”며 “간장게장의 맛 또한 많이 달거나 짜지 않아 입맛에 잘 맞는다”며 선호 이유를 밝혔다 .
             중화권 관광객 사이에서는 간장게장 외에도 고기구이와 분식 메뉴가 인기 있는 것으로 나타났다. 전체 고기구이 전문점 거래 데이터 중 중화권 관광객의 거래 건수는 약 77%, 거래액은 약 83% 의 비중을 기록하며 육류 요리 수요를 견인 중이다. 분식 또한 전체 수요의 약 60%를 차지하며 과반 이상을 차지했다.
             한식 중 간장게장, 고기구이 등이 인기가 많은 중화권과 달리 일본 관광객은 정갈한 한정식을 많이 찾았다. 일본은 전체 한정식 거래 건수 및 거래액의 약 80%를 기록하며 압도적인 소비층으로 자리 잡았다. 또한 전통 약과를 현대식으로 재해석한 디저트 매장이 인기를 끌며 전체 거래 규모의 약 57%를 차지했다 .
-            서양권 및 싱가포르 여행객의 외식 메뉴 선호도는 아시아권 여행객과 다른 양상을 보였다. 해당 지역 여행객들이 선호한 음식 1위와 2위는 각각 치킨과 분식이었으나 유일하게 ‘빙수’가 상위 3위 안에 들었다. 빙수 외에도 토스트, 도넛 등 간식 메뉴가 상위권에 올랐다. 아시아권 관광객에게 인기 있는 간장게장, 찜닭, 고기구이 등 한식 메뉴보다 입맛에도 익숙하고 간단히 즐길 수 있는 디저트를 자주 찾는 것으로 분석된다.
+            서양권 및 싱가포르 여행객의 외식 메뉴 선호도는 아시아권 여행객과 다른 양상을 보였다. 해당 지역 여행객들이 선호한 음식 1위와 2위는 각각 치킨과 분식이었으나 유일하게 ‘빙수’가 상위 3위 안에 들었다. 빙수 외에도 토스트, 도넛 등 간식 메뉴가 상위권에 올랐다. 아시아권 관광객에게 인기 있는 간장게장, 찜닭, 고기구이 등 한식 메뉴보다 입맛에도 익숙하고 간단히 즐길 수 있는 디저트를 자주 찾는 것으로 분석된다.```
              """},
             {"role": "assistant", "content": """
              {'거래 데이터' : '거래 내역이나 정보를 수집한 자료', 
@@ -242,9 +250,11 @@ def get_keywords_and_explanations(request, id):
              'K관광' : '한국을 방문하는 관광'}
              """
             },
-            {"role": "user", "content": f"""Identify technical terms, new words, and hard foreign words from the following news article, and store the words each in a key in the form of JSON. 
+            {"role": "user", "content": f"""Identify technical terms, new words, and hard foreign words from the following news article separated by three reverse quotes, and store the words each in a key in the form of JSON. 
              Then, Provide explanations for the words within the context of the news article IN KOREAN, and store the explanations each in a value in the form of JSON.
-             news article : {news_content}
+             
+             news article
+             ```{news_content}```
              """},
             ]
     )
