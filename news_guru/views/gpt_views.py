@@ -191,15 +191,17 @@ def get_background_knowledge(request, id):
     client = OpenAI(api_key=BACKGROUND_KNOWLEDGE_API_KEY)
 
     response = client.chat.completions.create(
-      model="gpt-4-0125-preview",
+      model="gpt-4",
       temperature=0.2,
       messages=[
             {"role": "system", "content": "You are a helpful assistant for news readers."},
             {"role": "user", "content": f"""
-             Use Browse with Bing : Based on the following news article separated by three reverse quotes and news url, find a few previous news articles to help news readers understand the news article. 
+             Use Browse with Bing : Based on the following news article separated by three reverse quotes and news url, find a few previous news articles to help news readers understand the following news article. 
              Then, based on previous articles, Please provide the background knowledge of the news article.
-             Please make sure that the content of the news article is not included in the background knowledge as much as possible so that the previous background can be reflected.
-             Finally, please print out 3 to 5 sentences in Korean.
+             
+             Please note:
+             - Make sure that the content of the news article is not included in the background knowledge as much as possible so that the previous background can be reflected.
+             - Please only print out background knowledge 4 to 5 sentences in KOREAN.
              
              news article
              ```{news_content}```
