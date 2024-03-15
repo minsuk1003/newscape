@@ -4,8 +4,15 @@ from .views import base_views, gpt_views
 app_name = 'news_guru'
 
 urlpatterns = [
-    # base_views.py
     path('',
+         base_views.home, name='home'),
+    path('intro/',
+         base_views.intro, name='intro'),
+    path('survey/',
+         base_views.survey, name='survey'),
+    path('submit_survey/',
+         base_views.submit_survey, name='submit_survey'),
+    path('news/',
          base_views.index, name='index'),
     path('<int:id>/',
          base_views.detail, name='detail'),

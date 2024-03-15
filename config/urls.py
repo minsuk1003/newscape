@@ -21,5 +21,5 @@ from news_guru.views import base_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('news_guru/', include('news_guru.urls')),
-    path('', base_views.index, name='index')
+    path('', base_views.home, name='home'),  # 초기 화면을 위한 URL 패턴
 ]

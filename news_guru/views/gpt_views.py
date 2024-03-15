@@ -187,32 +187,33 @@ def get_background_knowledge(request, id):
     # Assuming you have a way to get the news content by its ID
     news = get_object_or_404(News, pk=id)
     news_content = news.content
-    news_url = news.url
+    news_date = news.publish_date
     client = OpenAI(api_key=BACKGROUND_KNOWLEDGE_API_KEY)
-
+    
     response = client.chat.completions.create(
-      model="gpt-4",
+      model="gpt-4-turbo-preview",
       temperature=0.2,
       messages=[
             {"role": "system", "content": "You are a helpful assistant for news readers."},
+            
             {"role": "user", "content": f"""
-             Use Browse with Bing : Based on the following news article separated by three reverse quotes and news url, find a few previous news articles to help news readers understand the following news article. 
-             Then, based on previous articles, Please provide the background knowledge of the news article.
+             Please provide the background knowledge of the following new article which is separated by three reverse quotes.
+             You must find the relevant contents of the time before {news_date} when the article was published, and generate background knowledge of the news article based on the contents.
              
              Please note:
-             - Make sure that the content of the news article is not included in the background knowledge as much as possible so that the previous background can be reflected.
+             - Make sure that the body of the news article is not included in the background knowledge as much as possible so that the previous contents of the news is reflected and does not overlap with each other.
              - Please only print out background knowledge 4 to 5 sentences in KOREAN.
-             
-             news article
-             ```{news_content}```
-             
-             url : {news_url}
-             """.strip()},
+
+             news article:
+             '''{news_content}
+             '''
+             """.strip()
+             }
             ]
-    )
+      )
 
     background_knowledge = response.choices[0].message.content
-    return JsonResponse({'background_knowledge': background_knowledge})
+    return JsonResponse({'background_knowledge' : background_knowledge})
 
 
 def get_keywords_and_explanations(request, id):

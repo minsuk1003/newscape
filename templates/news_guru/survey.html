@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load news_guru_filter %}
+{% block content %}
+
+<div class="container mt-5 mb-2">
+    <h1>AI Newscape User Satisfaction Survey</h1>
+    <p>We're always looking to improve our service. Please take a few moments to share your experience.</p>
+    <form action="{% url 'news_guru:submit_survey' %}" method="post">
+        {% csrf_token %}
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="cardnewsLevel">How satisfied are you with AI Newscape?</label>
+                    <select class="form-control" id="cardnewsLevel" name="cardnewsLevel">
+                        <option>Very Satisfied</option>
+                        <option>Satisfied</option>
+                        <option>Neutral</option>
+                        <option>Dissatisfied</option>
+                        <option>Very Dissatisfied</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="backgroundLevel">How satisfied are you with AI Newscape?</label>
+                    <select class="form-control" id="backgroundLevel" name="backgroundLevel">
+                        <option>Very Satisfied</option>
+                        <option>Satisfied</option>
+                        <option>Neutral</option>
+                        <option>Dissatisfied</option>
+                        <option>Very Dissatisfied</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="keywordsLevel">How satisfied are you with AI Newscape?</label>
+                    <select class="form-control" id="keywordsLevel" name="keywordsLevel">
+                        <option>Very Satisfied</option>
+                        <option>Satisfied</option>
+                        <option>Neutral</option>
+                        <option>Dissatisfied</option>
+                        <option>Very Dissatisfied</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="feedback">What can we do to improve?</label>
+            <textarea class="form-control" id="feedback" name="feedback" rows="3"></textarea>
+        </div>
+        <div class="mt-2">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+{% if messages %}
+<div class="alert alert-primary" role="alert">
+    {% for message in messages %}
+    <div class="text-center">
+    {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

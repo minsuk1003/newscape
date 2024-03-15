@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello, AI Newscape!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .logo {
+            width: 120px;
+            display: block;
+            margin-bottom: 20px;
+        }
+        .card-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .card {
+            margin: 10px;
+            cursor: pointer; /* Makes the cursor indicate clickable items */
+            width: 18rem; /* Fixed width for consistency */
+        }
+        .card-img-top {
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Ensures the image is always a square */
+            object-fit: cover; /* This makes the image cover the area, without stretching it */
+        }
+        .description {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <img src="{% static 'AI Newscape.png' %}" alt="Logo" class="logo">
+    <p class="description">Welcome to Our News Service</p>
+
+    <div class="card-container">
+        <!-- Card examples remain unchanged, only CSS for .card-img-top has been updated -->
+        <div class="card" onclick="window.location.href='{% url 'news_guru:index' %}';">
+            <img src="{% static 'newsreader.webp' %}" class="card-img-top" alt="Experience AI Newscape">
+            <div class="card-body">
+                <h5 class="card-title">AI Newscape 체험하기</h5>
+                <p class="card-text">생성형 AI 기반 </p>
+            </div>
+        </div>
+        
+        <div class="card" onclick="window.location.href='{% url 'news_guru:intro' %}';">
+            <img src="{% static 'NEWS AI.webp' %}" class="card-img-top" alt="About AI Newscape">
+            <div class="card-body">
+                <h5 class="card-title">AI Newscape 소개</h5>
+                <p class="card-text">Learn more about AI Newscape and what it offers.</p>
+            </div>
+        </div>
+        
+        <div class="card" onclick="window.location.href='{% url 'news_guru:survey' %}';">
+            <img src="{% static 'news evaluator.webp' %}" class="card-img-top" alt="Survey">
+            <div class="card-body">
+                <h5 class="card-title">설문조사</h5>
+                <p class="card-text">Share your feedback to help us improve.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</body>
+</html>

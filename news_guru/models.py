@@ -10,6 +10,12 @@ class News(models.Model):
     content = models.TextField()
     url = models.TextField()
     thumbnail_url = models.TextField()
+    
+class SurveyResponse(models.Model):
+    card_news_satisfaction = models.CharField(max_length=100)
+    background_satisfaction = models.CharField(max_length=100)
+    keywords_satisfaction = models.CharField(max_length=100)
+    feedback = models.TextField()
 
 
 MEDIA_MAPPING = {
