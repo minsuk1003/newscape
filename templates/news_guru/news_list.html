@@ -38,14 +38,16 @@
                             <div class="d-flex flex-wrap justify-content-start">
                                 {% for cat in category_list %}
                                 <div class="p-1">
-                                    <input type="checkbox" id="category_{{ forloop.counter }}" name="category" value="{{ cat.category }}" class="btn-check" autocomplete="off">
+                                    <input type="checkbox" id="category_{{ forloop.counter }}" name="category" value="{{ cat.category }}"
+                                    class="btn-check" autocomplete="on"
+                                    {% if cat.category in categories %} checked {% endif %}> <!-- 수정된 부분 -->
                                     <label class="btn btn-outline-primary" for="category_{{ forloop.counter }}">{{ cat.category }}</label>
                                 </div>
                                 {% endfor %}
                             </div>
                         </div>
                     </div>
-                
+
                     <!-- Presses -->
                     <div class="col-md-6">
                         <div class="mb-1">
@@ -53,13 +55,17 @@
                             <div class="d-flex flex-wrap justify-content-start">
                                 {% for press_code, press_name in press_list %}
                                 <div class="p-1">
-                                    <input type="checkbox" id="press_{{ forloop.counter }}" name="press" value="{{ press_code }}" class="btn-check" autocomplete="off">
+                                    <input type="checkbox" id="press_{{ forloop.counter }}" name="press" value="{{ press_code }}"
+                                    class="btn-check" autocomplete="on"
+                                    {% if press_code|stringformat:"s" in presses %} checked {% endif %}>
                                     <label class="btn btn-outline-primary" for="press_{{ forloop.counter }}">{{ press_name }}</label>
                                 </div>
                                 {% endfor %}
                             </div>
                         </div>
                     </div>
+
+
                 </div>
                     <div class="text-center mt-2">
                         <button type="submit" class="btn btn-primary">찾기</button>
@@ -73,7 +79,7 @@
                 <p>Total articles: {{ news_list.paginator.count }}개</p>
             </div>
             <div class="col-4 d-flex justify-content-end mb-4">
-                <button id="toggleOrder" class="btn btn-outline-success" data-order="latest">정렬: 최신순</button>
+                <button id="toggleOrder" class="btn btn-outline-success" data-order="latest">최신순 ↓</button>
             </div>
 
             {% for news in news_list %}
@@ -116,7 +122,7 @@
         <!-- 이전페이지 -->
         {% if news_list.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ news_list.previous_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}&category={{ category }}{% endif %}{% if presses %}&press={{ presses }}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}">이전</a>
+            <a class="page-link" href="?page={{ news_list.previous_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}">이전</a>
         </li>
         {% endif %}
         <!-- 페이지리스트 -->
@@ -124,11 +130,11 @@
         {% if page_number >= news_list.number|add:-5 and page_number <= news_list.number|add:5 %}
             {% if page_number == news_list.number %}
             <li class="page-item active" aria-current="page">
-                <a class="page-link" href="?page={{ page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}&category={{ category }}{% endif %}{% if presses %}&press={{ presses }}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}">{{ page_number }}</a>
+                <a class="page-link" href="?page={{ page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}">{{ page_number }}</a>
             </li>
             {% else %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}&category={{ category }}{% endif %}{% if presses %}&press={{ presses }}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}">{{ page_number }}</a>
+                <a class="page-link" href="?page={{ page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}">{{ page_number }}</a>
             </li>
             {% endif %}
         {% endif %}
@@ -136,12 +142,14 @@
         <!-- 다음페이지 -->
         {% if news_list.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ news_list.next_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}&category={{ category }}{% endif %}{% if presses %}&press={{ presses }}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}">다음</a>
+            <a class="page-link" href="?page={{ news_list.next_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}">다음</a>
         </li>
         {% endif %}
     </ul>
     <!-- 페이징처리 끝 -->
 </div>
+
+
 
 <form id="searchForm" method="get" action="{% url 'news_guru:index' %}">
     <input type="hidden" id="kw" name="kw" value="{{ kw|default_if_none:'' }}">

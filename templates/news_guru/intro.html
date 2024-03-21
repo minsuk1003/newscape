@@ -8,4 +8,19 @@
     <p>Explore a world of information at your fingertips, where news is tailored to fit your unique preferences and interests. Join us on a journey through the ever-evolving landscape of news, enhanced by the power of artificial intelligence.</p>
 </div>
 
+<div id="vue-app">
+    <p>Message: [[ message ]]</p>
+</div>
+
+<script>
+new Vue({
+    el: '#vue-app',
+    delimiters: ['[[', ']]'], // Vue의 템플릿 구분자를 변경합니다.
+    data: {
+        message: 'Hello Vue!'
+    }
+});
+</script>
+
+
 {% endblock %}
