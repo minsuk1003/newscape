@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'bootstrap4',
     'corsheaders',
     'news_guru.apps.NewsGuruConfig',
-    'django-environ',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
