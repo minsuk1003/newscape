@@ -17,7 +17,7 @@ import os
 env = environ.Env(DEBUG=(bool, True))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # 읽어올 환경 변수 파일을 지정
 environ.Env.read_env(
