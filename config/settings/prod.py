@@ -18,5 +18,8 @@ DATABASES = {
         'PASSWORD': env('DB_ADMIN_PW'), # 관리자 비밀번호
         'HOST': 'ai-newscape.postgres.database.azure.com', # DB 배포 후 생성된 서버 이름
         'PORT': '5432', # Postgresql 포트 번호
-    }
+    },
+    'OPTIONS': {
+        'sslmode': 'require',
+    },
 }
