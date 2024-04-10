@@ -2,25 +2,25 @@
 {% load static %}
 {% load news_guru_filter %}
 {% block content %}
-<div class="container mt-5 mb-2 mr-2">
-    <h1>Welcome to AI Newscape</h1>
-    <p>AI Newscape is your go-to service for curated news content powered by advanced AI algorithms. Discover personalized news that matters to you, stay updated with the latest trends, and dive deep into topics of your interest.</p>
-    <p>Explore a world of information at your fingertips, where news is tailored to fit your unique preferences and interests. Join us on a journey through the ever-evolving landscape of news, enhanced by the power of artificial intelligence.</p>
+<div class="container mt-5 mb-5">
+    <h1 class="text-center mb-4">AI Newscape: 뉴스 이해력 강화를 위한 지식 어시스턴트</h1>
+    <div class="text-justify">
+        <p>AI Newscape는 전국민을 대상으로 발생하는 뉴스 회피 현상을 극복하고자, 생성형 AI를 활용해 사용자의 뉴스 이해를 도와주는 뉴스 지식 어시스턴트 서비스입니다.</p>
+    </div>
+    <div class="mt-4">
+        <h2 class="mb-3">AI Newscape의 주요 기능:</h2>
+        <ul>
+            <li><strong>기사의 카드뉴스 제공:</strong> 뉴스 이해를 돕는 요약적이며 시각적인 요소 제공</li>
+            <li><strong>기사의 배경지식 제공:</strong> 복잡하거나 배경 정보가 필요한 주제에 대한 깊이 있는 이해</li>
+            <li><strong>키워드 설명 제공:</strong> 신조어, 어려운 외국어, 전문 용어에 대해 기사 맥락을 고려한 설명</li>
+        </ul>
+    </div>
+    <div class="mt-4">
+        <h2 class="mb-3">왜 AI Newscape인가?</h2>
+        <p>AI Newscape는 사용자들이 뉴스를 더 잘 이해하고, 정보에 기반한 의사결정을 내릴 수 있도록 기여합니다. 다양한 뉴스와 정보의 '풍경' 속에서 서비스를 통해 제공되는 풍부한 내용을 탐험해보세요.</p>
+    </div>
+    <div class="text-center mt-5">
+        <p>AI Newscape와 함께 뉴스 읽기의 새로운 지평을 열어가세요.</p>
+    </div>
 </div>
-
-<div id="vue-app">
-    <p>Message: [[ message ]]</p>
-</div>
-
-<script>
-new Vue({
-    el: '#vue-app',
-    delimiters: ['[[', ']]'], // Vue의 템플릿 구분자를 변경합니다.
-    data: {
-        message: 'Hello Vue!'
-    }
-});
-</script>
-
-
 {% endblock %}
