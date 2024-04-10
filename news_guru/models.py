@@ -15,7 +15,7 @@ class SurveyResponse(models.Model):
     card_news_satisfaction = models.CharField(max_length=10)
     background_satisfaction = models.CharField(max_length=10)
     keywords_satisfaction = models.CharField(max_length=10)
-    service_satisfaction = models.IntegerField()
+    service_satisfaction = models.CharField()
     feedback = models.TextField()
 
 

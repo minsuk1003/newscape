@@ -3,76 +3,68 @@
 {% load news_guru_filter %}
 {% block content %}
 
-<div class="container mt-5 mb-2">
-    <h1>AI Newscape 뉴스 지식 어시스턴트 서비스 만족도 조사</h1>
-    <h7>서비스를 개선하기 위해 항상 노력하고 있습니다. 잠시 시간을 내어 여러분의 경험을 공유해주시면 감사하겠습니다.</h7>
+<div class="container mt-5 mb-5">
+    <h1 class="mb-3">AI Newscape 뉴스 지식 어시스턴트 서비스 만족도 조사</h1>
+    <p class="mb-4">서비스를 개선하기 위해 항상 노력하고 있습니다. 잠시 시간을 내어 여러분의 경험을 공유해주시면 감사하겠습니다.</p>
     <form action="{% url 'news_guru:submit_survey' %}" method="post">
         {% csrf_token %}
-        <div class="row mb-2">
+        <div class="mb-4">
             <p>AI Newscape 서비스의 3가지 기능을 통해 뉴스를 이해하는 데 도움이 되었는지 아래 항목에서 평가해주시면 대단히 감사하겠습니다.</p>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="cardnewsLevel">기사의 카드뉴스가 뉴스를 이해하는 데 도움이 되었다.</label>
-                    <select class="form-control" id="cardnewsLevel" name="cardnewsLevel">
-                        <option>매우 그렇다</option>
-                        <option>그렇다</option>
-                        <option>보통</option>
-                        <option>그렇지 않다</option>
-                        <option>매우 그렇지 않다</option>
-                    </select>
-                </div>
+            <div class="form-group mb-3">
+                <label for="cardnewsLevel" class="mb-2">기사의 카드뉴스가 뉴스 이해에 도움이 되었나요?</label>
+                <select class="form-control" id="cardnewsLevel" name="cardnewsLevel">
+                    <option>매우 그렇다</option>
+                    <option>그렇다</option>
+                    <option>보통이다</option>
+                    <option>그렇지 않다</option>
+                    <option>매우 그렇지 않다</option>
+                </select>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="backgroundLevel">기사의 배경지식이 뉴스를 이해하는 데 도움이 되었다.</label>
-                    <select class="form-control" id="backgroundLevel" name="backgroundLevel">
-                        <option>매우 그렇다</option>
-                        <option>그렇다</option>
-                        <option>보통</option>
-                        <option>그렇지 않다</option>
-                        <option>매우 그렇지 않다</option>
-                    </select>
-                </div>
+            <div class="form-group mb-3">
+                <label for="backgroundLevel" class="mb-2">기사의 배경지식이 뉴스 이해에 도움이 되었나요?</label>
+                <select class="form-control" id="backgroundLevel" name="backgroundLevel">
+                    <option>매우 그렇다</option>
+                    <option>그렇다</option>
+                    <option>보통이다</option>
+                    <option>그렇지 않다</option>
+                    <option>매우 그렇지 않다</option>
+                </select>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="keywordsLevel">기사의 키워드 설명이 뉴스를 이해하는 데 도움이 되었다.</label>
-                    <select class="form-control" id="keywordsLevel" name="keywordsLevel">
-                        <option>매우 그렇다</option>
-                        <option>그렇다</option>
-                        <option>보통</option>
-                        <option>그렇지 않다</option>
-                        <option>매우 그렇지 않다</option>
-                    </select>
-                </div>
+            <div class="form-group mb-4">
+                <label for="keywordsLevel" class="mb-2">기사의 키워드 설명이 뉴스 이해에 도움이 되었나요?</label>
+                <select class="form-control" id="keywordsLevel" name="keywordsLevel">
+                    <option>매우 그렇다</option>
+                    <option>그렇다</option>
+                    <option>보통이다</option>
+                    <option>그렇지 않다</option>
+                    <option>매우 그렇지 않다</option>
+                </select>
             </div>
         </div>
-        <div class="form-group">
-            <label for="serviceLevel">AI Newscape 서비스에 대해 전반적인 만족도를 1점에서 5점 사이로 평가해주신다면 매우 감사드리겠습니다.</label>
+        <div class="form-group mb-4">
+            <label for="serviceLevel" class="mb-2">AI Newscape 서비스에 대한 전반적인 만족도를 어떻게 평가하시나요?</label>
             <select class="form-control" id="serviceLevel" name="serviceLevel">
-                <option>5</option>
-                <option>4</option>
-                <option>3</option>
-                <option>2</option>
-                <option>1</option>
+                <option>매우 만족</option>
+                <option>만족</option>
+                <option>보통</option>
+                <option>불만족</option>
+                <option>매우 불만족</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="feedback">AI Newscape 뉴스 지식 어시스턴트 서비스를 더욱 발전시킬 수 있도록 여러분의 소중한 의견을 부탁드립니다. 서비스 개선을 위한 귀하의 제안이 큰 도움이 될 것입니다.</label>
-            <textarea class="form-control" id="feedback" name="feedback" rows="3"></textarea>
+        <div class="form-group mb-4">
+            <label for="feedback" class="mb-2">AI Newscape 뉴스 지식 어시스턴트 서비스를 개선하기 위한 제안이 있다면 공유해주세요.</label>
+            <textarea class="form-control" id="feedback" name="feedback" rows="4"></textarea>
         </div>
-        <div class="mt-2">
+        <div>
             <button type="submit" class="btn btn-primary">제출하기</button>
         </div>
     </form>
 </div>
 
 {% if messages %}
-<div class="alert alert-primary" role="alert">
+<div class="alert alert-primary mt-4" role="alert">
     {% for message in messages %}
-    <div class="text-center">
-    {{ message }}
-    </div>
+    <div>{{ message }}</div>
     {% endfor %}
 </div>
 {% endif %}
