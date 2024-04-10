@@ -122,7 +122,7 @@
         <!-- 이전페이지 -->
         {% if news_list.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ news_list.previous_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}{% if data-order %}&order_by={{ data-order }}{% endif %}">이전</a>
+            <a class="page-link" href="?page={{ news_list.previous_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}">이전</a>
         </li>
         {% endif %}
         <!-- 페이지리스트 -->
@@ -130,11 +130,11 @@
         {% if page_number >= news_list.number|add:-5 and page_number <= news_list.number|add:5 %}
             {% if page_number == news_list.number %}
             <li class="page-item active" aria-current="page">
-                <a class="page-link" href="?page={{ page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}{% if data-order %}&order_by={{ data-order }}{% endif %}">{{ page_number }}</a>
+                <a class="page-link" href="?page={{ page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}">{{ page_number }}</a>
             </li>
             {% else %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}{% if data-order %}&order_by={{ data-order }}{% endif %}">{{ page_number }}</a>
+                <a class="page-link" href="?page={{ page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}">{{ page_number }}</a>
             </li>
             {% endif %}
         {% endif %}
@@ -142,7 +142,7 @@
         <!-- 다음페이지 -->
         {% if news_list.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ news_list.next_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}{% if data-order %}&order_by={{ data-order }}{% endif %}">다음</a>
+            <a class="page-link" href="?page={{ news_list.next_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if categories %}{% for category in categories %}&category={{ category }}{% endfor %}{% endif %}{% if presses %}{% for press in presses %}&press={{ press }}{% endfor %}{% endif %}{% if kw %}&kw={{ kw }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}">다음</a>
         </li>
         {% endif %}
     </ul>
@@ -159,13 +159,16 @@
 <script type='text/javascript'>
 const page_elements = document.getElementsByClassName("page-link");
 Array.from(page_elements).forEach(function(element) {
-    element.addEventListener('click', function() {
-        const page = this.dataset.page;
+    element.addEventListener('click', function(e) {
+        e.preventDefault(); // 기본 동작 방지
+        const page = this.getAttribute('href').split('page=')[1]; // 페이지 번호 추출
         // URL 업데이트
-        const currentURL = window.location.href;
-        const updatedURL = updateQueryStringParameter(currentURL, 'page', page);
+        const currentURL = new URL(window.location);
+        currentURL.searchParams.set('page', page);
+        const order_by = document.getElementById('toggleOrder').getAttribute('data-order');
+        currentURL.searchParams.set('order_by', order_by); // 정렬 상태를 URL에 추가
         // 페이지 이동
-        window.location.href = updatedURL;
+        window.location.href = currentURL.toString();
     });
 });
 </script>
