@@ -8,37 +8,39 @@
     <p class="mb-4">서비스를 개선하기 위해 항상 노력하고 있습니다. 잠시 시간을 내어 여러분의 경험을 공유해주시면 감사하겠습니다.</p>
     <form action="{% url 'news_guru:submit_survey' %}" method="post">
         {% csrf_token %}
-        <div class="mb-4">
+        <div class="row mb-2">
             <p>AI Newscape 서비스의 3가지 기능을 통해 뉴스를 이해하는 데 도움이 되었는지 아래 항목에서 평가해주시면 대단히 감사하겠습니다.</p>
-            <div class="form-group mb-3">
-                <label for="cardnewsLevel" class="mb-2">기사의 카드뉴스가 뉴스 이해에 도움이 되었나요?</label>
-                <select class="form-control" id="cardnewsLevel" name="cardnewsLevel">
-                    <option>매우 그렇다</option>
-                    <option>그렇다</option>
-                    <option>보통이다</option>
-                    <option>그렇지 않다</option>
-                    <option>매우 그렇지 않다</option>
-                </select>
-            </div>
-            <div class="form-group mb-3">
-                <label for="backgroundLevel" class="mb-2">기사의 배경지식이 뉴스 이해에 도움이 되었나요?</label>
-                <select class="form-control" id="backgroundLevel" name="backgroundLevel">
-                    <option>매우 그렇다</option>
-                    <option>그렇다</option>
-                    <option>보통이다</option>
-                    <option>그렇지 않다</option>
-                    <option>매우 그렇지 않다</option>
-                </select>
-            </div>
-            <div class="form-group mb-4">
-                <label for="keywordsLevel" class="mb-2">기사의 키워드 설명이 뉴스 이해에 도움이 되었나요?</label>
-                <select class="form-control" id="keywordsLevel" name="keywordsLevel">
-                    <option>매우 그렇다</option>
-                    <option>그렇다</option>
-                    <option>보통이다</option>
-                    <option>그렇지 않다</option>
-                    <option>매우 그렇지 않다</option>
-                </select>
+            <div class="col-md-4">
+                <div class="form-group mb-3">
+                    <label for="cardnewsLevel" class="mb-2">기사의 카드뉴스가 뉴스 이해에 도움이 되었나요?</label>
+                    <select class="form-control" id="cardnewsLevel" name="cardnewsLevel">
+                        <option>매우 그렇다</option>
+                        <option>그렇다</option>
+                        <option>보통이다</option>
+                        <option>그렇지 않다</option>
+                        <option>매우 그렇지 않다</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="backgroundLevel" class="mb-2">기사의 배경지식이 뉴스 이해에 도움이 되었나요?</label>
+                    <select class="form-control" id="backgroundLevel" name="backgroundLevel">
+                        <option>매우 그렇다</option>
+                        <option>그렇다</option>
+                        <option>보통이다</option>
+                        <option>그렇지 않다</option>
+                        <option>매우 그렇지 않다</option>
+                    </select>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="keywordsLevel" class="mb-2">기사의 키워드 설명이 뉴스 이해에 도움이 되었나요?</label>
+                    <select class="form-control" id="keywordsLevel" name="keywordsLevel">
+                        <option>매우 그렇다</option>
+                        <option>그렇다</option>
+                        <option>보통이다</option>
+                        <option>그렇지 않다</option>
+                        <option>매우 그렇지 않다</option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="form-group mb-4">
