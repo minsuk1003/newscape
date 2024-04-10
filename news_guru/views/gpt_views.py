@@ -131,7 +131,7 @@ def generate_card_news(request, id):
     image = Image.open(BytesIO(response.content))
 
     # 이미지에 텍스트 추가
-    font_path = "C:/news_project/news_app/static/NotoSansKR-Bold.ttf"  # 폰트 파일 경로(필요에 따라 변경)
+    font_path = "/home/ubuntu/projects/mysite/static/NotoSansKR-Bold.ttf"  # 폰트 파일 경로(필요에 따라 변경)
     font_size = 24  # 폰트 크기 설정
     font = ImageFont.truetype(font_path, font_size)
     
