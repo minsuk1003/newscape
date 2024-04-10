@@ -9,10 +9,10 @@
     <form action="{% url 'news_guru:submit_survey' %}" method="post">
         {% csrf_token %}
         <div class="row mb-2">
+            <p>AI Newscape 서비스의 3가지 기능을 통해 뉴스를 이해하는 데 도움이 되었는지 아래 항목에서 평가해주시면 대단히 감사하겠습니다.</p>
             <div class="col-md-4">
-                <p>AI Newscape 서비스의 3가지 기능을 통해 뉴스를 이해하는 데 도움이 되었는지 아래 다섯 가지 옵션 중에서 선택해 주시면 대단히 감사하겠습니다.</p>
                 <div class="form-group">
-                    <label for="cardnewsLevel">기사의 카드뉴스</label>
+                    <label for="cardnewsLevel">기사의 카드뉴스가 뉴스를 이해하는 데 도움이 되었다.</label>
                     <select class="form-control" id="cardnewsLevel" name="cardnewsLevel">
                         <option>매우 그렇다</option>
                         <option>그렇다</option>
@@ -24,7 +24,7 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="backgroundLevel">기사의 배경지식</label>
+                    <label for="backgroundLevel">기사의 배경지식이 뉴스를 이해하는 데 도움이 되었다.</label>
                     <select class="form-control" id="backgroundLevel" name="backgroundLevel">
                         <option>매우 그렇다</option>
                         <option>그렇다</option>
@@ -36,7 +36,7 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="keywordsLevel">기사의 키워드 설명</label>
+                    <label for="keywordsLevel">기사의 키워드 설명이 뉴스를 이해하는 데 도움이 되었다.</label>
                     <select class="form-control" id="keywordsLevel" name="keywordsLevel">
                         <option>매우 그렇다</option>
                         <option>그렇다</option>
