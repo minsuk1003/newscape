@@ -82,16 +82,23 @@ def generate_card_news(request, id):
     The white space should take up the majority of the center, but not covering the thematic visuals at the borders. This is for an informative and visually appealing news card.
     """
     
-    prompt3 = f"""    
+    prompt3 = f"""
+    full news content:
+    ```{news_content}```
+    
     a summary for the card news:
     ```{summary}```
     
     Design a background for a card news with the following criteria:
-    - The design related to the summary separated by three reverse quotes should prioritize subtlety while maintaining a degree of impact.
-    - A large, central blank white space MUST be maintained for text to be added later.
+    - The design should prioritize subtlety while maintaining a degree of impact, focusing on leaving ample room for text insertion in the middle.
+    - A large, central blank white space must be maintained for text to be added later.
     - This blank white space should cover at least 99% of the image, ensuring no interference with future text.
+    - Around the very edges of the image, incorporate subtle and minimal imagery related to the above news article separated by three reverse quotes, and this imagery should form a narrow border and not distract from the central white space.
     - The imagery should not overwhelm the central blank area.
     - Avoid direct text displays or explicit details within the imagery.
+
+    Please note:
+    - The full news content and a summary for the card news will influence the border imagery, reflecting the theme of the news without overwhelming the design.
     """
     
     prompt4 = f"""
