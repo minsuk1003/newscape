@@ -14,7 +14,9 @@ from django.conf import settings
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import boto3
-
+from langchain import OpenAI, LLMMathChain, SerpAPIWrapper
+from langchain.agents import initialize_agent, Tool, AgentExecutor
+from langchain.chat_models import ChatOpenAI
 
 CARD_NEWS_API_KEY = settings.CARD_NEWS_API_KEY
 BACKGROUND_KNOWLEDGE_API_KEY = settings.BACKGROUND_KNOWLEDGE_API_KEY
@@ -43,7 +45,7 @@ def generate_summary(id):
              First of all, Please create a summary that will go into the card news.
              
              The summary sentence satifies the following conditions :
-             1. Write it in 4 sentences.
+             1. Write it in 5 ~ 6 sentences.
              2. Each sentence should be written in less than 70 characters.
              3. Don't change the line when the sentence is over.
              4. Get rid of the period of the last sentence.
