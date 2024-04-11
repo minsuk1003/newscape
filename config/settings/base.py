@@ -169,6 +169,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS= ['https://*.azurewebsites.net']
+CSRF_TRUSTED_ORIGINS= ['https://*.azurewebsites.net', 'https://newscapes.org', 'https://*.newscapes.org']
 
 CORS_ORIGIN_ALLOW_ALL = True
