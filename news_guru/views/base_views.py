@@ -29,6 +29,8 @@ def submit_survey(request):
     keywords_satisfaction = request.POST.get('keywordsLevel')
     service_satisfaction = request.POST.get('serviceLevel')
     feedback = request.POST.get('feedback')
+    phone_num = request.POST.get('phoneNum')
+    
 
     # 새 설문조사 응답 객체를 생성하고 데이터베이스에 저장합니다.
     survey_response = SurveyResponse(
@@ -36,7 +38,8 @@ def submit_survey(request):
         background_satisfaction=background_satisfaction,
         keywords_satisfaction=keywords_satisfaction,
         service_satisfaction=service_satisfaction,
-        feedback=feedback
+        feedback=feedback,
+        phone_num=phone_num
     )
     survey_response.save()
     
