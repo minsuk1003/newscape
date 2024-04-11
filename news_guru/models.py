@@ -15,8 +15,9 @@ class SurveyResponse(models.Model):
     card_news_satisfaction = models.CharField(max_length=10)
     background_satisfaction = models.CharField(max_length=10)
     keywords_satisfaction = models.CharField(max_length=10)
-    service_satisfaction = models.CharField()
+    service_satisfaction = models.CharField(max_length=10)
     feedback = models.TextField()
+    phone_num = models.CharField(max_length=20)
 
 
 MEDIA_MAPPING = {
