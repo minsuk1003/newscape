@@ -10,6 +10,7 @@ from django.db.models import Min, Max
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
 from django.contrib import messages  
+from django.views.decorators.csrf import csrf_protect
 
 def home(request):
     return render(request, 'news_guru/home.html')
@@ -21,6 +22,7 @@ def survey(request):
     return render(request, 'news_guru/survey.html')
 
 @require_POST
+@csrf_protect
 def submit_survey(request):
     card_news_satisfaction = request.POST.get('cardnewsLevel')
     background_satisfaction = request.POST.get('backgroundLevel')
