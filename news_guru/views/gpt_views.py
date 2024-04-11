@@ -14,9 +14,6 @@ from django.conf import settings
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import boto3
-from langchain import OpenAI, LLMMathChain, SerpAPIWrapper
-from langchain.agents import initialize_agent, Tool, AgentExecutor
-from langchain.chat_models import ChatOpenAI
 
 CARD_NEWS_API_KEY = settings.CARD_NEWS_API_KEY
 BACKGROUND_KNOWLEDGE_API_KEY = settings.BACKGROUND_KNOWLEDGE_API_KEY
