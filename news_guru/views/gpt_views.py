@@ -43,7 +43,7 @@ def generate_summary(id):
              
              The summary sentence satifies the following conditions :
              1. Write it in 5 ~ 6 sentences.
-             2. Each sentence should be written in less than 50 characters.
+             2. Each sentence should be written in less than 40 characters.
              3. Don't change the line when the sentence is over.
              4. Get rid of the period of the last sentence.
              """.strip()}]  
@@ -83,22 +83,19 @@ def generate_card_news(request, id):
     """
     
     prompt3 = f"""
+    Design a background for a card news with the following criteria:
+    - A large, central blank white space must be maintained for text to be added later. 
+    - This blank white space should cover at least 95% of the image, ensuring no interference with future text.
+    - Around the very edges of the image, incorporate subtle and minimal imagery related to the above news article separated by three reverse quotes, and this imagery should form a narrow border and not distract from the central white space.
+    - The imagery should not overwhelm the central blank area.
+    - Avoid direct text displays or explicit details within the imagery.
+    - The design should prioritize subtlety while maintaining a degree of impact, focusing on leaving ample room for text insertion in the middle.
+    
     full news content:
     ```{news_content}```
     
     a summary for the card news:
     ```{summary}```
-    
-    Design a background for a card news with the following criteria:
-    - A large, central blank white space must be maintained for text to be added later. 
-    - This blank white space should cover at least 90% of the image, ensuring no interference with future text.
-    - Around the very edges of the image, incorporate subtle and minimal imagery related to the above news article separated by three reverse quotes, and this imagery should form a narrow border and not distract from the central white space.
-    - The imagery should not overwhelm the central blank area.
-    - Avoid direct text displays or explicit details within the imagery.
-    - The design should prioritize subtlety while maintaining a degree of impact, focusing on leaving ample room for text insertion in the middle.
-
-    Please note:
-    - The full news content and a summary for the card news will influence the border imagery, reflecting the theme of the news without overwhelming the design.
     """
     
     prompt4 = f"""
