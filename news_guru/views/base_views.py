@@ -52,11 +52,14 @@ def submit_survey(request):
 
 def index(request):
     order_by = request.GET.get('order_by', 'latest')
-
+    
     if order_by == 'latest':
-        news_list = News.objects.order_by('-publish_date')
+        news_list = News.objects.order_by('title', '-publish_date')
     else:  # 오래된 순
-        news_list = News.objects.order_by('publish_date')
+        news_list = News.objects.order_by('title', 'publish_date')
+    
+    # 중복 제거 추가 - title 기준
+    news_list = news_list.distinct('title')
     
     # 페이지, 키워드 필터링 조건
     page = request.GET.get('page', '1')  # 페이지
