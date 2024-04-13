@@ -126,35 +126,41 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-    
+
+card_news_html = `<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JQ64ZHR4P0"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JQ64ZHR4P0');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Newscape : Card News</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .loading-container { text-align: center; padding-top: 20px; }
+        .loading-text { margin-top: 20px; } /* 스피너와 텍스트를 위한 스타일 */
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="loading-text">생성형 AI가 해당 기사에 대한 카드뉴스를 생성 중입니다...</div>
+    </div>
+</body>
+</html>
+`
 // 카드뉴스 생성
 document.getElementById('btnToggleView').addEventListener('click', function() {
     const newsId = this.getAttribute('data-news-id'); // Ensure this attribute is correctly set
     // Open a popup window with a loading message
     const popupWindow = window.open('', '_blank', 'width=1000,height=1200,scrollbars=yes,resizable=yes');
-    popupWindow.document.write(`
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Loading Card News...</title>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            .loading-container { text-align: center; padding-top: 20px; }
-            .loading-text { margin-top: 20px; } /* 스피너와 텍스트를 위한 스타일 */
-        </style>
-    </head>
-    <body>
-        <div class="loading-container">
-            <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-            <div class="loading-text">생성형 AI가 해당 기사에 대한 카드뉴스를 생성 중입니다...</div>
-        </div>
-    </body>
-    </html>
-`);    
+    popupWindow.document.write(card_news_html);    
     fetch(`/news_guru/${newsId}/generate_card_news/`)
     .then(response => response.json())
     .then(data => {
