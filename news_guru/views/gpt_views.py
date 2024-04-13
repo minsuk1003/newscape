@@ -90,10 +90,10 @@ def generate_card_news(request, id):
     ```{summary}```
     
     Design a background for a card news with the following criteria:
-    - The design should prioritize subtlety while maintaining a degree of impact, focusing on leaving ample room for text insertion in the middle.
-    - A large, central blank space must be maintained for text to be added later.
-    - Around the very edges of the image related to the above news article separated by three reverse quotes, and this imagery should form a narrow border and not distract from the central blank space.
-    - The imagery should not overwhelm the central blank area.
+    - The design should prioritize subtlety while maintaining a degree of impact, focusing on leaving ample room for summary text insertion in the middle.
+    - A large, central bright blank space must be maintained for text to be added later.
+    - Around the very edges of the image related to the above news article separated by three reverse quotes, and this imagery should form a narrow border and not distract from the central bright blank space.
+    - The imagery should not overwhelm the central bright blank area.
     - Avoid direct text displays or explicit details within the imagery.
     """
     
