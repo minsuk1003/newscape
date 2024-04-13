@@ -83,14 +83,14 @@ def generate_card_news(request, id):
     """
     
     prompt3 = f"""
-    a summary for the card news:
-    ```{summary}```
+    news content:
+    ```{news_content}```
     
     Design a background for a card news with the following criteria:
-    - Around the very edges of the image related to the above news summary separated by three reverse quotes, and this imagery should form a narrow border and not distract from the large, central bright blank area.
-    - A large, central bright blank area must be maintained for text to be added later.
-    - The design should prioritize subtlety while maintaining a degree of impact, focusing on leaving ample room for above news summary text insertion in the middle.
-    - The imagery should not overwhelm the large, central bright blank area.
+    - Around the very edges of the image, incorporate subtle and minimal imagery related to the above news content separated by three reverse quotes, and this imagery should form a narrow border and not distract from the very large, central blank area.
+    - The design should prioritize subtlety while maintaining a degree of impact, focusing on leaving very large, central blank area for text insertion.
+    - A large, central blank area must be maintained for text to be added later.
+    - The imagery should not overwhelm the large, central blank area.
     - Avoid direct text displays or explicit details within the imagery.
     """
     
