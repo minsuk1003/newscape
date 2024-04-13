@@ -43,7 +43,7 @@ def generate_summary(id):
              
              The summary sentence satifies the following conditions :
              - Write it in 5 ~ 6 sentences.
-             - Each sentence should be written in less than 30 characters.
+             - Each sentence should be written in less than 50 characters.
              - Get rid of the period of the last sentence.
              """.strip()}]  
       )
