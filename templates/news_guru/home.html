@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello, AI Newscape!</title>
+    <title>Hello, AI Newscapes!</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
@@ -43,24 +43,24 @@
     </style>
 </head>
 <body>
-    <img src="{% static 'AI Newscape.png' %}" alt="Logo" class="logo">
-    <p class="description">생성형 AI 기반 뉴스 지식 어시스턴트 서비스 "AI Newscape"에 오신 것을 환영합니다!</p>
+    <img src="{% static 'AI Newscapes.png' %}" alt="Logo" class="logo" size="width: 150%; height: auto;">
+    <p class="description">생성형 AI 기반 뉴스 지식 어시스턴트 서비스 AI Newscapes에 오신 것을 환영합니다!</p>
 
     <div class="card-container">
         <!-- Card examples remain unchanged, only CSS for .card-img-top has been updated -->
         <div class="card" onclick="window.location.href='{% url 'news_guru:index' %}';">
             <img src="{% static 'newsreader.webp' %}" class="card-img-top" alt="Experience AI Newscape">
             <div class="card-body">
-                <h5 class="card-title">AI Newscape 체험하기</h5>
-                <p class="card-text">생성형 AI 기반 뉴스 지식 어시스턴트 "AI Newscape"를 체험해보세요.</p>
+                <h5 class="card-title">AI Newscapes 체험하기</h5>
+                <p class="card-text">생성형 AI 기반 뉴스 지식 어시스턴트 AI Newscapes를 체험해보세요.</p>
             </div>
         </div>
         
         <div class="card" onclick="window.location.href='{% url 'news_guru:intro' %}';">
             <img src="{% static 'NEWS AI.webp' %}" class="card-img-top" alt="About AI Newscape">
             <div class="card-body">
-                <h5 class="card-title">AI Newscape 소개</h5>
-                <p class="card-text">"AI Newscape"의 탄생 배경과 주요 기능을 알아보세요.</p>
+                <h5 class="card-title">AI Newscapes 소개</h5>
+                <p class="card-text">AI Newscapes의 탄생 배경과 주요 기능을 알아보세요.</p>
             </div>
         </div>
         
@@ -68,7 +68,7 @@
             <img src="{% static 'news evaluator.webp' %}" class="card-img-top" alt="Survey">
             <div class="card-body">
                 <h5 class="card-title">설문조사</h5>
-                <p class="card-text">"AI Newscape"의 개선을 위해 여러분의 경험을 공유해주세요.</p>
+                <p class="card-text">AI Newscapes의 개선을 위해 여러분의 경험을 공유해주세요.</p>
             </div>
         </div>
     </div>

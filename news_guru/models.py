@@ -19,7 +19,21 @@ class SurveyResponse(models.Model):
     feedback = models.TextField()
     phone_num = models.CharField(max_length=20)
 
+class CardNews(models.Model):
+    news_id = models.IntegerField()
+    card_news_url = models.TextField()
+    satisfaction = models.BooleanField()
 
+class BackGround(models.Model):
+    news_id = models.IntegerField()
+    background_text = models.TextField()
+    satisfaction = models.BooleanField()
+    
+class KeyWords(models.Model):
+    news_id = models.IntegerField()
+    keywords_json = models.JSONField()
+    satisfaction = models.BooleanField()
+    
 MEDIA_MAPPING = {
     32: "경향신문",
     5: "국민일보",
