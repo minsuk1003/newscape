@@ -12,10 +12,8 @@ class News(models.Model):
     thumbnail_url = models.TextField()
     
 class SurveyResponse(models.Model):
-    card_news_satisfaction = models.CharField(max_length=10)
-    background_satisfaction = models.CharField(max_length=10)
-    keywords_satisfaction = models.CharField(max_length=10)
-    service_satisfaction = models.CharField(max_length=10)
+    newscapes_satisfaction = models.CharField(max_length=10)
+    naver_satisfaction = models.CharField(max_length=10)
     feedback = models.TextField()
     phone_num = models.CharField(max_length=20)
 

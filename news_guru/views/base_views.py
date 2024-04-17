@@ -24,20 +24,16 @@ def survey(request):
 @require_POST
 @csrf_protect
 def submit_survey(request):
-    card_news_satisfaction = request.POST.get('cardnewsLevel')
-    background_satisfaction = request.POST.get('backgroundLevel')
-    keywords_satisfaction = request.POST.get('keywordsLevel')
-    service_satisfaction = request.POST.get('serviceLevel')
+    newscapes_satisfaction = request.POST.get('newscapesLevel')
+    naver_satisfaction = request.POST.get('naverLevel')
     feedback = request.POST.get('feedback')
     phone_num = request.POST.get('phoneNum')
     
 
     # 새 설문조사 응답 객체를 생성하고 데이터베이스에 저장합니다.
     survey_response = SurveyResponse(
-        card_news_satisfaction=card_news_satisfaction,
-        background_satisfaction=background_satisfaction,
-        keywords_satisfaction=keywords_satisfaction,
-        service_satisfaction=service_satisfaction,
+        newscapes_satisfaction=newscapes_satisfaction,
+        naver_satisfaction=naver_satisfaction,
         feedback=feedback,
         phone_num=phone_num
     )
