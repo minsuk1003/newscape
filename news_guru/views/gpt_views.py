@@ -14,6 +14,7 @@ from django.conf import settings
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import boto3
+import uuid
 
 CARD_NEWS_API_KEY = settings.CARD_NEWS_API_KEY
 BACKGROUND_KNOWLEDGE_API_KEY = settings.BACKGROUND_KNOWLEDGE_API_KEY
@@ -164,7 +165,7 @@ def generate_card_news(request, id):
 
     # S3 클라이언트 생성 및 이미지 업로드
     s3_client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
-    file_name = f'card_news_{id}.png'
+    file_name = f'card_news_{id}_{uuid.uuid4()}.png'
     s3_client.upload_fileobj(image_io, BUCKET_NAME, file_name, ExtraArgs={'ContentType': 'image/png', 'ACL': 'public-read'})
 
     # 이미지 URL 생성

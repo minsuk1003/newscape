@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-card_news_html = `<head>
+card_news_loading_html = `<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Newscape : Card News</title>
@@ -153,12 +153,17 @@ document.getElementById('btnToggleView').addEventListener('click', function() {
     const newsId = this.getAttribute('data-news-id'); // Ensure this attribute is correctly set
     // Open a popup window with a loading message
     const popupWindow = window.open('', '_blank', 'width=1000,height=1200,scrollbars=yes,resizable=yes');
-    popupWindow.document.write(card_news_html);    
+    popupWindow.document.write(card_news_loading_html);    
     fetch(`/news_guru/${newsId}/generate_card_news/`)
     .then(response => response.json())
     .then(data => {
         // Update the popup window with the card news image
-        popupWindow.document.body.innerHTML = `<img src="${data.image_url}" alt="Card News Image" style="max-width:100%;height:auto;">`;
+        popupWindow.document.body.innerHTML = `<img src="${data.image_url}" alt="Card News Image" style="max-width:100%;height:auto;">
+        <div class="feedback-buttons">
+            <button class="btn btn-success">Like</button>
+            <button class="btn btn-danger">Dislike</button>
+        </div>
+        `;
     })
     .catch(error => {
         console.error('Error:', error);
@@ -166,13 +171,8 @@ document.getElementById('btnToggleView').addEventListener('click', function() {
     });
 });
 
-// 배경지식 생성
-document.getElementById('btnCheckBackground').addEventListener('click', function() {
-    const newsId = this.getAttribute('data-news-id'); // Assuming you have the news ID
-    // Open a popup window with the background knowledge text
-    const popupWindow = window.open('', '_blank', 'width=800,height=400,scrollbars=yes,resizable=yes');
-    popupWindow.document.write(`
-    <!DOCTYPE html>
+background_html = `
+<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -193,7 +193,13 @@ document.getElementById('btnCheckBackground').addEventListener('click', function
         </div>
     </body>
     </html>
-`);
+`
+// 배경지식 생성
+document.getElementById('btnCheckBackground').addEventListener('click', function() {
+    const newsId = this.getAttribute('data-news-id'); // Assuming you have the news ID
+    // Open a popup window with the background knowledge text
+    const popupWindow = window.open('', '_blank', 'width=800,height=400,scrollbars=yes,resizable=yes');
+    popupWindow.document.write(background_html);
     fetch(`/news_guru/${newsId}/get_background_knowledge/`)
     .then(response => response.json())
     .then(data => {
