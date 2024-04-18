@@ -42,8 +42,8 @@ def generate_summary(id):
              First of all, Please create a summary that will go into the card news.
              
              The summary satifies the following conditions :
-             - Write it in 5 ~ 6 sentences.
-             - Each sentence should be written in less than 40 characters.
+             - Write it in 4 ~ 5 sentences.
+             - Each sentence should be written in less than 50 characters.
              - Get rid of the period of the last sentence.
              - Centralize the text.
              """.strip()}]  
