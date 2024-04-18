@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import base_views, gpt_views
+from .views import base_views, gpt_views, gpt_survey_views
 
 app_name = 'news_guru'
 
@@ -21,5 +21,12 @@ urlpatterns = [
     path('<int:id>/get_background_knowledge/', 
          gpt_views.get_background_knowledge, name='get_background_knowledge'),
     path('<int:id>/get_keywords_and_explanations/', 
-         gpt_views.get_keywords_and_explanations, name='get_keywords_and_explanations')
+         gpt_views.get_keywords_and_explanations, name='get_keywords_and_explanations'),
+    
+    path('cardnews_survey/', 
+         gpt_survey_views.cardnews_survey, name='cardnews_survey'),
+    path('background_survey/', 
+         gpt_survey_views.background_survey, name='background_survey'),
+    path('keywords_survey/',
+         gpt_survey_views.keywords_survey, name='keywords_survey')  
 ]

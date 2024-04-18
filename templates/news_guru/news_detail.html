@@ -159,10 +159,14 @@ document.getElementById('btnToggleView').addEventListener('click', function() {
     .then(data => {
         // Update the popup window with the card news image
         popupWindow.document.body.innerHTML = `<img src="${data.image_url}" alt="Card News Image" style="max-width:100%;height:auto;">
-        <div class="feedback-buttons">
-            <button class="btn btn-success">Like</button>
-            <button class="btn btn-danger">Dislike</button>
-        </div>
+        <form action="{% url 'news_guru:cardnews_survey' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="news_id" value="${newsId}">
+            <input type="hidden" name="card_news_url" value="${data.image_url}">
+            <div class="feedback-buttons">
+                <input type="submit" name="satisfaction" value="Like" class="btn btn-success">
+                <input type="submit" name="satisfaction" value="Dislike" class="btn btn-danger">
+            </div>
         `;
     })
     .catch(error => {
@@ -177,7 +181,7 @@ background_html = `
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Loading Background Knowledge...</title>
+        <title>AI Newscape : Background Knowledge</title>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <style>
             .loading-container { text-align: center; padding-top: 20px; }
@@ -222,16 +226,24 @@ document.getElementById('btnCheckBackground').addEventListener('click', function
                 <div class="card-body">
                     <h2 class="card-title">배경지식</h2>
                     <hr class="my-4">
-                    <p class="card-text">${data.background_knowledge}</p>
+                    <p class="card-text" name="background_text">${data.background_knowledge}</p>
                 </div>
             </div>
+            <form action="{% url 'news_guru:background_survey' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="news_id" value="${newsId}">
+                <input type="hidden" name="background_text" value="${data.background_knowledge}">
+                <div class="feedback-buttons">
+                    <input type="submit" name="satisfaction" value="Like" class="btn btn-success">
+                    <input type="submit" name="satisfaction" value="Dislike" class="btn btn-danger">
+                </div>
         </body>
         </html>
         `);
     })
     .catch(error => {
         console.error('Error:', error);
-        popupWindow.document.body.innerHTML = '<p>Error loading background knowledge.</p>';
+        popupWindow.document.body.innerHTML = error;
     });
 });
 
@@ -246,7 +258,7 @@ document.getElementById('btnCheckTerm').addEventListener('click', function() {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Keywords Explanation</title>
+            <title>AI Newscape : Keywords Explanation</title>
             <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         </head>
         <body>
@@ -270,6 +282,15 @@ document.getElementById('btnCheckTerm').addEventListener('click', function() {
                         <div class="loading-text">생성형 AI가 해당 기사에 대한 키워드와 설명을 생성 중입니다...</div>
                     </div>
                 </div>
+                <form id="feedbackForm" action="" method="post" style="display:none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="news_id" value="">
+                    <input type="hidden" name="keywords_json" value="">
+                    <div class="feedback-buttons">
+                        <input type="submit" name="satisfaction" value="Like" class="btn btn-success">
+                        <input type="submit" name="satisfaction" value="Dislike" class="btn btn-danger">
+                    </div>
+                </form>
             </div>
         </body>
         </html>
@@ -288,6 +309,13 @@ document.getElementById('btnCheckTerm').addEventListener('click', function() {
         // Show the table
         const keywordsTable = popupWindow.document.getElementById('keywordsTable');
         keywordsTable.style.display = 'table';
+
+        // Update form action and hidden inputs
+        const feedbackForm = popupWindow.document.getElementById('feedbackForm');
+        feedbackForm.action = "{% url 'news_guru:keywords_survey' %}"; // 이 부분은 서버 사이드 렌더링을 필요로 함
+        feedbackForm.style.display = "block";
+        feedbackForm.news_id.value = newsId;
+        feedbackForm.keywords_json.value = JSON.stringify(data);
 
         // Get the table body to insert rows
         const tbody = keywordsTable.querySelector('tbody');
