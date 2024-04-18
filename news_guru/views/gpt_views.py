@@ -178,10 +178,10 @@ def generate_card_news(request, id):
 def get_background_knowledge(request, id):
     # Assuming you have a way to get the news content by its ID
     news = get_object_or_404(News, pk=id)
-    news_content = news.content.replace('"', '')
-
+    news_content = news.content
     news_date = news.publish_date
     client = OpenAI(api_key=BACKGROUND_KNOWLEDGE_API_KEY)
+    news_content = json.dumps(news_content)[1:-1]
     
     response = client.chat.completions.create(
       model="gpt-4",
@@ -213,8 +213,10 @@ def get_background_knowledge(request, id):
 def get_keywords_and_explanations(request, id):
     # Assuming you have a way to get the news content by its ID
     news = get_object_or_404(News, pk=id)
-    news_content = news.content.replace('"', '')
+    news_content = news.content
     client = OpenAI(api_key=KEYWORDS_EXPLANATIONS_API_KEY)
+
+    news_content = json.dumps(news_content)[1:-1]
     
     response = client.chat.completions.create(
       model="gpt-4-turbo-preview",
