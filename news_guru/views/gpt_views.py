@@ -46,6 +46,7 @@ def generate_summary(id):
              - Each sentence should be written in less than 40 characters.
              - Get rid of the period of the last sentence.
              - Centralize the text.
+             - If there are 3 reverse quotes before and after the summary text, please remove them.
              """.strip()}]  
       )
 
