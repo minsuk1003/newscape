@@ -247,7 +247,7 @@ def get_keywords_and_explanations(request, id):
              'K관광' : '한국을 방문하는 관광'}
              """
             },
-            {"role": "user", "content": f"""Identify technical terms, new words, and hard foreign words from the following news article separated by three reverse quotes, and store the words each in a key in the form of JSON. 
+            {"role": "user", "content": f"""Identify technical terms, new words, and hard foreign words from the following news article, and store the words each in a key in the form of JSON. 
              Then, Provide explanations for the words within the context of the news article IN KOREAN, and store the explanations each in a value in the form of JSON.
              
              news article : {news_content}
