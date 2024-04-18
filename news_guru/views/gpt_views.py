@@ -215,8 +215,6 @@ def get_keywords_and_explanations(request, id):
     news = get_object_or_404(News, pk=id)
     news_content = news.content
     client = OpenAI(api_key=KEYWORDS_EXPLANATIONS_API_KEY)
-
-    news_content = json.dumps(news_content)[1:-1]
     
     response = client.chat.completions.create(
       model="gpt-4-turbo-preview",
