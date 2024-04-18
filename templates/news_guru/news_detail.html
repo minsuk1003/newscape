@@ -158,11 +158,17 @@ document.getElementById('btnToggleView').addEventListener('click', function() {
     .then(response => response.json())
     .then(data => {
         // Update the popup window with the card news image
-        popupWindow.document.body.innerHTML = `<img src="${data.image_url}" alt="Card News Image" style="max-width:100%;height:auto;">
+        popupWindow.document.body.innerHTML = `
+        <style>
+            .feedback-buttons { margin-top: 20px; } /* 버튼 위의 마진 추가 */
+            .satisfaction-query { text-align: center; margin-top: 20px; font-size: 1.1rem; } /* 만족도 질문 스타일 */
+        </style>
+        <img src="${data.image_url}" alt="Card News Image" style="max-width:100%;height:auto;">
         <form action="{% url 'news_guru:cardnews_survey' %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="news_id" value="${newsId}">
             <input type="hidden" name="card_news_url" value="${data.image_url}">
+            <p class="satisfaction-query">아래 버튼을 클릭하여 이 카드뉴스에 대한 만족도를 표현해 주세요.</p>
             <div class="feedback-buttons">
                 <input type="submit" name="satisfaction" value="Like" class="btn btn-success">
                 <input type="submit" name="satisfaction" value="Dislike" class="btn btn-danger">
@@ -219,6 +225,8 @@ document.getElementById('btnCheckBackground').addEventListener('click', function
                 body { margin: 20px; }
                 .card { box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); margin-top: 20px; }
                 .card-text { font-size: 1.2rem; } /* 텍스트 크기 조정 */
+                .feedback-buttons { margin-top: 20px; } /* 버튼 위의 마진 추가 */
+                .satisfaction-query { text-align: center; margin-top: 20px; font-size: 1.1rem; } /* 만족도 질문 스타일 */
             </style>
         </head>
         <body>
@@ -233,6 +241,7 @@ document.getElementById('btnCheckBackground').addEventListener('click', function
                 {% csrf_token %}
                 <input type="hidden" name="news_id" value="${newsId}">
                 <input type="hidden" name="background_text" value="${data.background_knowledge}">
+                <p class="satisfaction-query">아래 버튼을 클릭하여 이 배경지식에 대한 만족도를 표현해 주세요.</p>
                 <div class="feedback-buttons">
                     <input type="submit" name="satisfaction" value="Like" class="btn btn-success">
                     <input type="submit" name="satisfaction" value="Dislike" class="btn btn-danger">
@@ -260,6 +269,10 @@ document.getElementById('btnCheckTerm').addEventListener('click', function() {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>AI Newscape : Keywords Explanation</title>
             <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+            <style>
+                .feedback-buttons { margin-top: 20px; } /* 버튼 위의 마진 추가 */
+                .satisfaction-query { text-align: center; margin-top: 20px; font-size: 1.1rem; } /* 만족도 질문 스타일 */
+            </style>
         </head>
         <body>
             <div class="container" style="margin-top: 20px;">
@@ -286,6 +299,7 @@ document.getElementById('btnCheckTerm').addEventListener('click', function() {
                     {% csrf_token %}
                     <input type="hidden" name="news_id" value="">
                     <input type="hidden" name="keywords_json" value="">
+                    <p class="satisfaction-query">아래 버튼을 클릭하여 키워드와 설명에 대한 만족도를 표현해 주세요.</p>
                     <div class="feedback-buttons">
                         <input type="submit" name="satisfaction" value="Like" class="btn btn-success">
                         <input type="submit" name="satisfaction" value="Dislike" class="btn btn-danger">
