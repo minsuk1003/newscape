@@ -36,16 +36,16 @@ def generate_summary(id):
       messages=[
             {"role": "system", "content": "You are a helpful assistant for news readers."},
             {"role": "user", "content": f"""
-             news article
-             ```{news_content}```
+             news article : {news_content}
              
-             I want to make card news about the above news article separated by three reverse quotes.
+             I want to make card news about the above news article.
              First of all, Please create a summary that will go into the card news.
              
-             The summary sentence satifies the following conditions :
+             The summary satifies the following conditions :
              - Write it in 5 ~ 6 sentences.
-             - Each sentence should be written in less than 50 characters.
+             - Each sentence should be written in less than 40 characters.
              - Get rid of the period of the last sentence.
+             - Centralize the text.
              """.strip()}]  
       )
 
