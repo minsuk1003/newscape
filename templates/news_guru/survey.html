@@ -4,12 +4,12 @@
 {% block content %}
 <title>AI Newscape : Survey</title>
 <div class="container mt-5 mb-5">
-    <h1 class="mb-3">AI Newscape 뉴스 지식 어시스턴트 서비스 만족도 조사</h1>
+    <h1 class="mb-3">AI Newscapes 뉴스 지식 어시스턴트 서비스 만족도 조사</h1>
     <h5 class="mb-4">서비스를 개선하기 위해 항상 노력하고 있습니다. 잠시 시간을 내어 여러분의 경험을 공유해주시면 감사하겠습니다.</h5>
     <form action="{% url 'news_guru:submit_survey' %}" method="post">
         {% csrf_token %}
         <div class="form-group mb-4">
-            <label for="phoneNum" class="mb-2">귀하의 전화번호를 입력해주세요.</label>
+            <label for="phoneNum" class="mb-2">귀하의 전화번호를 입력해주세요. (중복 방지를 위한 것이며, 번호가 저장되지 않습니다. 중복시 최근 설문 결과만 저장됩니다.)</label>
             <textarea class="form-control" id="phoneNum" name="phoneNum" rows="1"></textarea>
         </div>
         <div class="row mb-2">
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="form-group mb-4">
-            <label for="feedback" class="mb-2">3. AI Newscape 뉴스 지식 어시스턴트 서비스를 개선하기 위한 제안이 있다면 공유해주세요.</label>
+            <label for="feedback" class="mb-2">3. AI Newscapes 뉴스 지식 어시스턴트 서비스를 개선하기 위한 제안이 있다면 공유해주세요.</label>
             <textarea class="form-control" id="feedback" name="feedback" rows="4"></textarea>
         </div>
         <div>
