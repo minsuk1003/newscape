@@ -84,11 +84,10 @@ def generate_card_news(request, id):
     """
     
     prompt3 = f"""
-    news content:
-    ```{news_content}```
+    news content : {news_content}
     
     Design a background for a card news with the following criteria:
-    - Around the very edges of the image, incorporate subtle and minimal imagery related to the above news content separated by three reverse quotes, and this imagery should form a narrow border and not distract from the very large, central blank white space.
+    - Around the very edges of the image, incorporate subtle and minimal imagery related to the above news content, and this imagery should form a narrow border and not distract from the very large, central blank white space.
     - The design should prioritize subtlety while maintaining a degree of impact, focusing on leaving very large, central blank white space for text insertion.
     - A very large, central blank white space must be maintained for text to be added later.
     - The imagery should not overwhelm the large, central blank white space.
@@ -179,7 +178,8 @@ def generate_card_news(request, id):
 def get_background_knowledge(request, id):
     # Assuming you have a way to get the news content by its ID
     news = get_object_or_404(News, pk=id)
-    news_content = news.content.replace('"', '\\"')
+    news_content = news.content.replace('"', '')
+
     news_date = news.publish_date
     client = OpenAI(api_key=BACKGROUND_KNOWLEDGE_API_KEY)
     
@@ -198,7 +198,7 @@ def get_background_knowledge(request, id):
              - Please mention the date as much as possible so that readers can identify events from previous periods in the process of writing the background knowledge of the news.
              - Print out background knowledge 5 to 6 sentences in KOREAN.
 
-             news article: \"{news_content}\"
+             news article: {news_content}
              """.strip()
              }
             ]
@@ -213,7 +213,7 @@ def get_background_knowledge(request, id):
 def get_keywords_and_explanations(request, id):
     # Assuming you have a way to get the news content by its ID
     news = get_object_or_404(News, pk=id)
-    news_content = news.content.replace('"', '\\"')
+    news_content = news.content.replace('"', '')
     client = OpenAI(api_key=KEYWORDS_EXPLANATIONS_API_KEY)
     
     response = client.chat.completions.create(
@@ -250,7 +250,7 @@ def get_keywords_and_explanations(request, id):
             {"role": "user", "content": f"""Identify technical terms, new words, and hard foreign words from the following news article, and store the words each in a key in the form of JSON. 
              Then, Provide explanations for the words within the context of the news article IN KOREAN, and store the explanations each in a value in the form of JSON.
              
-             news article : \"{news_content}\"
+             news article : {news_content}
              """},
             ]
     )
