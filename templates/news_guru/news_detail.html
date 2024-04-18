@@ -43,7 +43,7 @@
                 <button class="btn btn-success btn-lg mx-3" id="btnCheckBackground" data-news-id="{{ news.id }}" data-bs-toggle="tooltip" title="생성형 AI가 해당 기사 이전에 발생한 내용들을 토대로 기사의 배경지식을 생성해 제공합니다." data-bs-custom-class="success">
                     배경지식 확인하기
                 </button>
-                <button class="btn btn-lg mx-3" id="btnCheckTerm" data-news-id="{{ news.id }}" style="background-color: #6f42c1; color: white; " data-bs-toggle="tooltip" data-bs-placement="bottom" title="생성형 AI가 해당 기사에 등장하는 최신 단어와 전문 용어에 대한 설명을 생성해 제공합니다." data-bs-custom-class="purple">
+                <button class="btn btn-lg mx-3" id="btnCheckTerm" data-news-id="{{ news.id }}" style="background-color: #6f42c1; color: white; " data-bs-toggle="tooltip" data-bs-placement="bottom" title="생성형 AI가 해당 기사에 등장하는 최신 단어와 전문 용어에 대해 문맥을 고려한 설명을 생성해 제공합니다." data-bs-custom-class="purple">
                     최신 단어 및 전문 용어 설명 보기
                 </button>
             </div>  
@@ -191,7 +191,7 @@ document.getElementById('btnToggleView').addEventListener('click', function() {
             <input type="hidden" name="card_news_url" value="${data.image_url}">
             <p class="satisfaction-query">아래 버튼을 클릭하여 이 카드뉴스에 대한 만족도를 표현해 주세요.</p>
             <div class="feedback-buttons">
-                <button type="submit" name="satisfaction" value="Like" class="icon-button">
+                <button type="submit" name="satisfaction" value="Like" class="icon-button" style="margin-right: 10px;">
                     <i class="fas fa-thumbs-up"></i>
                 </button>
                 <button type="submit" name="satisfaction" value="Dislike" class="icon-button" style="color: #dc3545;">
@@ -284,7 +284,7 @@ document.getElementById('btnCheckBackground').addEventListener('click', function
                 <input type="hidden" name="background_text" value="${data.background_knowledge}">
                 <p class="satisfaction-query">아래 버튼을 클릭하여 이 배경지식에 대한 만족도를 표현해 주세요.</p>
                 <div class="feedback-buttons">
-                    <button type="submit" name="satisfaction" value="Like" class="icon-button">
+                    <button type="submit" name="satisfaction" value="Like" class="icon-button" style="margin-right: 10px;">
                         <i class="fas fa-thumbs-up"></i>
                     </button>
                     <button type="submit" name="satisfaction" value="Dislike" class="icon-button" style="color: #dc3545;">
@@ -334,12 +334,12 @@ document.getElementById('btnCheckTerm').addEventListener('click', function() {
         </head>
         <body>
             <div class="container" style="margin-top: 20px;">
-                <h2>Keywords and Descriptions</h2><br>
+                <h2>최신 단어, 전문 용어, 어려운 외국어에 대한 설명</h2><br>
                 <table class='table' id="keywordsTable">
                     <thead>
                         <tr>
-                            <th>Keyword</th>
-                            <th>Description</th>
+                            <th>키워드</th>
+                            <th>설명</th>
                         </tr>
                     </thead>
                     <tbody id="keywordsTableBody">
@@ -359,7 +359,7 @@ document.getElementById('btnCheckTerm').addEventListener('click', function() {
                     <input type="hidden" name="keywords_json" value="">
                     <p class="satisfaction-query">아래 버튼을 클릭하여 키워드와 설명에 대한 만족도를 표현해 주세요.</p>
                     <div class="feedback-buttons">
-                        <button type="submit" name="satisfaction" value="Like" class="icon-button">
+                        <button type="submit" name="satisfaction" value="Like" class="icon-button" style="margin-right: 10px;">
                             <i class="fas fa-thumbs-up"></i>
                         </button>
                         <button type="submit" name="satisfaction" value="Dislike" class="icon-button" style="color: #dc3545;">
