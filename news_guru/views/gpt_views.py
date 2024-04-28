@@ -150,9 +150,10 @@ def generate_card_news(request, id):
         text_width, text_height = draw.textsize(sentence, font=font)
         line_heights.append(text_height)
         total_text_height += text_height + 10  # 문장 간의 여백 추가
-        # 텍스트 시작 y 위치를 이미지 중앙에 맞추기
-        image_width, image_height = image.size
-        initial_y = (image_height - total_text_height) / 2
+
+    # 텍스트 시작 y 위치를 이미지 중앙에 맞추기
+    image_width, image_height = image.size
+    initial_y = (image_height - total_text_height) / 2
 
     # 이미지에 텍스트 추가
     y_offset = initial_y
