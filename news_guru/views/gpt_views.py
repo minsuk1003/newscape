@@ -109,13 +109,13 @@ def generate_card_news(request, id):
     new_prompt = f"""
     Design a narrow border for a card news with the following criteria:
     - To add news summary text later, you need to leave the large central area blank. This space should take up most of the images and be exactly central.
-    - Subtle, minimal imagery related to the news summary around the very edges, forming a narrow border.
+    - Subtle, minimal imagery related to the news around the very edges, forming a narrow border.
     - Avoid direct text displays or explicit details within the imagery.
     
     Please Note:
     You must leave the exact central area that makes up the majority of the image as a white blank background as the summary text needs to be filled later.
     
-    A news summary to be inserted later  : ```{summary}```
+    news content : ```{news_content}```
     """.strip()
     
     prompt4 = f"""
