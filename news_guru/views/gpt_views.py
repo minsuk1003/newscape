@@ -147,10 +147,12 @@ def generate_card_news(request, id):
     for sentence in sentences:
         if not sentence.endswith('.'):
             sentence += '.'
-        text_width, text_height = draw.textsize(sentence, font=font)
+        # textbbox 메소드를 사용하여 텍스트의 바운딩 박스를 얻음
+        bbox = draw.textbbox((0, 0), sentence, font=font)
+        text_height = bbox[3] - bbox[1]
         line_heights.append(text_height)
         total_text_height += text_height + 10  # 문장 간의 여백 추가
-    
+
     # 텍스트 시작 y 위치를 이미지 중앙에 맞추기
     image_width, image_height = image.size
     initial_y = (image_height - total_text_height) / 2
@@ -158,7 +160,8 @@ def generate_card_news(request, id):
     # 이미지에 텍스트 추가
     y_offset = initial_y
     for index, sentence in enumerate(sentences):
-        text_width, text_height = draw.textsize(sentence, font=font)
+        bbox = draw.textbbox((0, 0), sentence, font=font)
+        text_width = bbox[2] - bbox[0]
         x = (image_width - text_width) / 2
         y = y_offset
 
