@@ -44,9 +44,9 @@ def generate_summary(id):
              
              The summary satifies the following conditions :
              - Write it in 4 ~ 5 sentences.
-             - Each sentence should be written in less than 50 characters.
+             - Each sentence should be written in less than 40 characters.
              - Get rid of the period of the last sentence.
-             - Centralize the text.
+             - 개조식으로 작성해주세요.
              """.strip()}]  
       )
 
