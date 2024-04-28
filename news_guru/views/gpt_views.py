@@ -109,10 +109,13 @@ def generate_card_news(request, id):
 
     Create a background design for a card news.
     
-    You must follow the following criteria:
-    - Subtle, minimal imagery related to the news around the very edges, forming a narrow border.
+    You must follow the criteria:
+    - Subtle, minimal imagery related to the news summary around the very edges, forming a narrow border.
     - Avoid any direct textual elements within the imagery to maintain a clean look.
     - The expansive central area must remain extensively blank, for news summary text to be added later. Ensure that this space is significantly larger than usual to prevent any overlap between text and imagery.
+    
+    The most important thing is...
+    Please leave the expansive central area of the image as a white blank background because the summary text needs to be filled later.
     """.strip()
     
     prompt4 = f"""
