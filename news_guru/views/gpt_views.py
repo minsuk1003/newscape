@@ -98,10 +98,10 @@ def generate_card_news(request, id):
     News content: {news_content}
 
     Create a background design for a news card that features:
-    - Subtle, minimal imagery related to the news content around the very edges, forming a narrow border that should be visually quiet and not interfere with the large central blank space intended for text.
+    - Subtle, minimal imagery related to the news content around the very edges, forming a narrow border and not interfere with the large central blank space intended for text.
     - The central area must remain prominently blank, serving as a canvas for text to be added later.
     - The surrounding imagery should enhance but not dominate the large central blank white space.
-    - Avoid any direct textual elements or explicit details within the imagery to maintain a clean and uncluttered look.
+    - Avoid any direct textual elements or explicit details within the imagery to maintain a clean look.
     """
 
     prompt4 = f"""
