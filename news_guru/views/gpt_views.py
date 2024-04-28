@@ -238,7 +238,7 @@ def get_keywords_and_explanations(request, id):
     # Assuming you have a way to get the news content by its ID
     news = get_object_or_404(News, pk=id)
     news_content = news.content
-    news_content = re.sub(r'[^가-힣0-9a-zA-Z\.,()!?]', ' ', news_content)
+    news_content = re.sub(r'[^가-힣0-9a-zA-Z\.!?]', ' ', news_content)
     
     client = OpenAI(api_key=KEYWORDS_EXPLANATIONS_API_KEY)
     
