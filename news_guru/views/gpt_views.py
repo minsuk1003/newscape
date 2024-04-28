@@ -106,15 +106,15 @@ def generate_card_news(request, id):
     """
     
     new_prompt = f"""
-    News summary : {summary}
-
     Design a background for a card news with the following criteria:
+    - To add news summary text later, you need to leave the central area blank. This space should take up most of the images and be exactly central.
     - Subtle, minimal imagery related to the news summary around the very edges, forming a narrow border.
     - Avoid any direct textual elements within the imagery to maintain a clean look.
-    - To add news summary text later, you need to leave the central area blank. This space should take up most of the images and be exactly central.
     
     Please Note:
     You must leave the exact central area that makes up the majority of the image as a white blank background as the summary text needs to be filled later.
+    
+    News summary : {summary}
     """.strip()
     
     prompt4 = f"""
