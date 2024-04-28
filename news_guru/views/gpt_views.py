@@ -205,7 +205,7 @@ def get_background_knowledge(request, id):
     news_content = news.content
     news_date = news.publish_date
     client = OpenAI(api_key=BACKGROUND_KNOWLEDGE_API_KEY)
-    news_content = re.sub(r'[<>]', '', news_content)
+    news_content = re.sub(r"[<>']", '', news_content)
     
     response = client.chat.completions.create(
       model="gpt-4",
@@ -238,7 +238,7 @@ def get_keywords_and_explanations(request, id):
     # Assuming you have a way to get the news content by its ID
     news = get_object_or_404(News, pk=id)
     news_content = news.content
-    news_content = re.sub(r'[<>]', '', news_content)
+    news_content = re.sub("[<>']", '', news_content)
     
     client = OpenAI(api_key=KEYWORDS_EXPLANATIONS_API_KEY)
     
