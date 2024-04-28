@@ -95,7 +95,7 @@ def generate_card_news(request, id):
     """
     
     prompt = f"""
-    News content: {news_content}
+    News content: {summary}
 
     Create a background design for a news card that features:
     - Subtle, minimal imagery related to the news content around the very edges, forming a narrow border and not interfere with the expansive central blank space intended for text.
@@ -103,7 +103,16 @@ def generate_card_news(request, id):
     - The surrounding imagery should enhance but not dominate the large central blank white space.
     - Avoid any direct textual elements or explicit details within the imagery to maintain a clean look.
     """
+    
+    new_prompt = f"""
+    News summary : {summary}
 
+    Create a background design for a card news that features:
+    - The expansive central area must remain extensively blank, for news summary text to be added later. Ensure that this space is significantly larger than usual to prevent any overlap between text and imagery.
+    - Subtle, minimal imagery related to the news around the very edges, forming a narrow border.
+    - Avoid any direct textual elements within the imagery to maintain a clean look.
+    """
+    
     prompt4 = f"""
     Imagine creating a visually appealing background for a news card, centered around the key themes of the following article. The image should feature a vast, blank white space in its heart, occupying at least 80% of the central area, reserved explicitly for textual content to be added later. This blank canvas should serve as a stark contrast to the vibrant, thematic imagery delicately framing the edges of the image. 
 
@@ -120,7 +129,7 @@ def generate_card_news(request, id):
     # Call the OpenAI API to generate an image
     response = client.images.generate(
         model="dall-e-3",  # Make sure to use the correct model name
-        prompt=prompt,
+        prompt=new_prompt,
         size="1024x1024",
         n=1
     )
