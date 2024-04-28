@@ -143,31 +143,27 @@ def generate_card_news(request, id):
     total_text_height = 0
     line_heights = []
 
-    # 각 문장의 높이를 계산 (실제 그리기 전에)
+    # 각 문장의 높이와 너비를 계산
     for sentence in sentences:
         if not sentence.endswith('.'):
             sentence += '.'
-        # textbbox 메소드를 사용하여 텍스트의 바운딩 박스를 얻음
-        bbox = draw.textbbox((0, 0), sentence, font=font)
-        text_height = bbox[3] - bbox[1]
+        text_width, text_height = draw.textsize(sentence, font=font)
         line_heights.append(text_height)
         total_text_height += text_height + 10  # 문장 간의 여백 추가
-
-    # 텍스트 시작 y 위치를 이미지 중앙에 맞추기
-    image_width, image_height = image.size
-    initial_y = (image_height - total_text_height) / 2
+        # 텍스트 시작 y 위치를 이미지 중앙에 맞추기
+        image_width, image_height = image.size
+        initial_y = (image_height - total_text_height) / 2
 
     # 이미지에 텍스트 추가
     y_offset = initial_y
-    for index, sentence in enumerate(sentences):
-        bbox = draw.textbbox((0, 0), sentence, font=font)
-        text_width = bbox[2] - bbox[0]
+    for sentence in sentences:
+        text_width, text_height = draw.textsize(sentence, font=font)
         x = (image_width - text_width) / 2
         y = y_offset
 
         draw.text((x, y), sentence, font=font, fill="black")
-        y_offset += line_heights[index] + 10  # 다음 줄의 y 위치 조정
-
+        y_offset += text_height + 10  # 다음 줄의 y 위치 조정
+        
     # 메모리에 이미지 저장
     image_io = BytesIO()
     image.save(image_io, format='PNG')
