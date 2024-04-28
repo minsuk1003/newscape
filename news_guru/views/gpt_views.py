@@ -112,8 +112,8 @@ def generate_card_news(request, id):
     - Avoid any direct textual elements within the imagery to maintain a clean look.
     - To add news summary text later, you need to leave the central area blank. This space should take up most of the images and be exactly central.
     
-    The most important thing is...
-    Please leave the exact central area that makes up the majority of the image as a white blank background as the summary text needs to be filled later.
+    Please Note:
+    You must leave the exact central area that makes up the majority of the image as a white blank background as the summary text needs to be filled later.
     """.strip()
     
     prompt4 = f"""
