@@ -115,7 +115,7 @@ def generate_card_news(request, id):
     Please Note:
     You must leave the exact central area that makes up the majority of the image as a white blank background as the summary text needs to be filled later.
     
-    news content : ```{news_content}```
+    news content : {news_content}
     """.strip()
     
     prompt4 = f"""
