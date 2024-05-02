@@ -221,19 +221,43 @@ function updateQueryStringParameter(uri, key, value) {
 <script type='text/javascript'>
 document.querySelectorAll('input[name="category"], input[name="press"]').forEach(item => {
     item.addEventListener('change', function() {
-        let selectedCategories = [];
-        document.querySelectorAll('input[name="category"]:checked').forEach(checked => {
-            selectedCategories.push(checked.value);
-        });
-        document.getElementById('categories').value = selectedCategories.join(',');
-
-        let selectedPresses = [];
-        document.querySelectorAll('input[name="press"]:checked').forEach(checked => {
-            selectedPresses.push(checked.value);
-        });
-        document.getElementById('presses').value = selectedPresses.join(',');
+        updateQueryStringParameter('category', getSelectedValues('category'));
+        updateQueryStringParameter('press', getSelectedValues('press'));
     });
 });
+
+function getSelectedValues(name) {
+    let values = [];
+    document.querySelectorAll(`input[name="${name}"]:checked`).forEach(checked => {
+        values.push(checked.value);
+    });
+    return values.join(',');
+}
+
+function updateQueryStringParameter(key, value) {
+    const url = new URL(window.location);
+    if (value) {
+        url.searchParams.set(key, value);
+    } else {
+        url.searchParams.delete(key);
+    }
+    window.history.replaceState({}, '', url);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    setSelectedValues('category', new URLSearchParams(window.location.search).get('category'));
+    setSelectedValues('press', new URLSearchParams(window.location.search).get('press'));
+});
+
+function setSelectedValues(name, values) {
+    if (!values) return;
+    let valueArray = values.split(',');
+    document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+        if (valueArray.includes(input.value)) {
+            input.checked = true;
+        }
+    });
+}
 </script>
 
 <script type="text/javascript">
