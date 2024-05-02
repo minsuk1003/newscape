@@ -163,34 +163,29 @@ Array.from(page_elements).forEach(function(element) {
     element.addEventListener('click', function(e) {
         e.preventDefault(); // 기본 동작 방지
         const page = this.getAttribute('href').split('page=')[1].split('&')[0]; // 페이지 번호만 추출
-        // URL 업데이트
+
+        // URL 생성
         const currentURL = new URL(window.location);
         currentURL.searchParams.set('page', page); // 페이지 번호 업데이트
 
         // 기존의 모든 검색 조건들을 URL에 다시 설정 (예: 카테고리, 키워드 등)
-        if (currentURL.searchParams.get('kw')) {
-            currentURL.searchParams.set('kw', currentURL.searchParams.get('kw'));
-        }
-        if (currentURL.searchParams.get('start_date')) {
-            currentURL.searchParams.set('start_date', currentURL.searchParams.get('start_date'));
-        }
-        if (currentURL.searchParams.get('end_date')) {
-            currentURL.searchParams.set('end_date', currentURL.searchParams.get('end_date'));
-        }
-        if (currentURL.searchParams.get('category')) {
-            currentURL.searchParams.set('category', currentURL.searchParams.get('category'));
-        }
-        if (currentURL.searchParams.get('press')) {
-            currentURL.searchParams.set('press', currentURL.searchParams.get('press'));
-        }
-        if (currentURL.searchParams.get('order_by')) {
-            currentURL.searchParams.set('order_by', currentURL.searchParams.get('order_by'));
-        }
+        ['kw', 'start_date', 'end_date', 'order_by'].forEach(param => {
+            let value = currentURL.searchParams.get(param);
+            if (value) currentURL.searchParams.set(param, value);
+        });
+
+        // 다중 카테고리와 언론사 처리
+        ['category', 'press'].forEach(param => {
+            currentURL.searchParams.delete(param); // 기존 파라미터 삭제
+            document.querySelectorAll(`input[name="${param}"]:checked`).forEach(checked => {
+                currentURL.searchParams.append(param, checked.value); // 새 파라미터 추가
+            });
+        });
 
         // 페이지 이동
         window.location.href = currentURL.toString();
     });
-});
+});    
 </script>
 
 <script type='text/javascript'>
